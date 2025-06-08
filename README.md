@@ -23,3 +23,8 @@ npm run dev
 ```
 
 Open `http://localhost:5173` to view the React app.
+
+### Additional Pages
+
+- **Educación**: mini-tutoriales para evitar scams y aprender funciones avanzadas.
+- **FAQ**: preguntas frecuentes con un buscador sencillo.
