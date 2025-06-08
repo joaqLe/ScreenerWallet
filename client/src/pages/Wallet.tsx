@@ -10,7 +10,7 @@ export default function Wallet() {
     if (key) {
       setPubkey(key);
       const connection = new Connection('https://api.mainnet-beta.solana.com');
-      connection.getBalance(new PublicKey(key)).then(lamports => {
+      connection.getBalance(new PublicKey(key)).then((lamports: number) => {
         setBalance(lamports / 1e9);
       });
     }
