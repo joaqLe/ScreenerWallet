@@ -41,3 +41,16 @@
 .read-the-docs {
   color: #888;
 }
+
+.onboarding-slide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  gap: 1rem;
+}
+
+.onboarding-slide button {
+  margin-top: 1rem;
+}
