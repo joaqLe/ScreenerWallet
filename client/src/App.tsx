@@ -9,6 +9,10 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+
+import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+
 import Register from './pages/Register';
 import WalletSetup from './pages/WalletSetup';
 import SeedPhrase from './pages/SeedPhrase';
@@ -49,10 +53,15 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/wallet-setup" element={<WalletSetup />} />
         <Route path="/seed-phrase" element={<SeedPhrase />} />
         <Route path="/confirm-seed" element={<ConfirmSeed />} />
+
       </Routes>
     </Router>
   );
