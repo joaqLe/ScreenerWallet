@@ -12,6 +12,8 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import TokenDetail from './pages/TokenDetail';
+
 
 import Profile from './pages/Profile';
 import TokenDetail from './pages/TokenDetail';
@@ -64,6 +66,9 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+
+        <Route path="/token/:address" element={<TokenDetail />} />
+
         <Route path="/profile" element={<Profile />} />
         <Route path="/token/:symbol" element={<TokenDetail />} />
 
@@ -74,6 +79,7 @@ function App() {
         <Route path="/wallet-setup" element={<WalletSetup />} />
         <Route path="/seed-phrase" element={<SeedPhrase />} />
         <Route path="/confirm-seed" element={<ConfirmSeed />} />
+
 
       </Routes>
       <BottomNav />
