@@ -1,2 +1,25 @@
 # ScreenerWallet
-una plataforma web y móvil que combina herramientas de análisis de mercado en tiempo real con una billetera integrada, permitiendo a los usuarios analizar, monitorear y comerciar tokens de Solana en DEXs (exchanges descentralizados) como Raydium, Orca y el agregador Jupiter
+
+A minimal prototype implementing Phase 1 of the ScreenerWallet roadmap.
+
+## Getting Started
+
+### Server
+
+```
+cd server
+npm install
+npm start
+```
+
+This starts an Express server on port 3001 and exposes `/api/prices?token=<address>`.
+
+### Client
+
+```
+cd client
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173` to view the React app.
