@@ -13,6 +13,8 @@ npm start
 ```
 
 This starts an Express server on port 3001 and exposes `/api/prices?token=<address>`.
+It also exposes a `/api/security?token=<address>` endpoint returning mock contract
+security data used by the client.
 
 ### Client
 
@@ -23,6 +25,8 @@ npm run dev
 ```
 
 Open `http://localhost:5173` to view the React app.
+The navigation includes a **Security** page that visualizes contract security
+information using the `/api/security` endpoint.
 
 ### Smart Orders
 
