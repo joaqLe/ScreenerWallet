@@ -10,6 +10,14 @@ export default function Wallet() {
     const key = localStorage.getItem('wallet');
     if (key) {
       setPubkey(key);
+
+      const rpcUrl = import.meta.env.VITE_RPC_URL ||
+        'https://api.mainnet-beta.solana.com';
+      const connection = new Connection(rpcUrl);
+      connection.getBalance(new PublicKey(key)).then((lamports: number) => {
+        setBalance(lamports / 1e9);
+      });
+
     }
 
     const handleStorage = (e: StorageEvent) => {
