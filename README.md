@@ -31,6 +31,10 @@ npm run dev
 ```
 
 Open `http://localhost:5173` to view the React app.
+
+The navigation bar now includes a **Perfil** link where you can customize your alias, avatar,
+visualize performance statistics and badges, and ajustar configuración de idioma,
+moneda preferida y seguridad 2FA.
 The UI now includes a **Whales** page where you can view recent whale transactions,
 track specific addresses and configure whale alerts.
 
