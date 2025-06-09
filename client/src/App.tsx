@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from 'pages/Dashboard';
 import Swap from 'pages/Swap';
 import Wallet from 'pages/Wallet';
@@ -22,9 +22,21 @@ import SmartOrders from 'pages/SmartOrders';
 import CopyTrading from 'pages/CopyTrading';
 import Sniping from 'pages/Sniping';
 
-
 import History from 'pages/History';
+
 import NotFound from 'pages/NotFound';
+
+
+import Layout from 'components/Layout';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import Onboarding from 'pages/Onboarding';
+import WalletSetup from 'pages/WalletSetup';
+import SeedPhrase from 'pages/SeedPhrase';
+import ConfirmSeed from 'pages/ConfirmSeed';
+import Send from 'pages/Send';
+import Receive from 'pages/Receive';
+
 import BottomNav from 'components/BottomNav';
 
 
@@ -34,13 +46,45 @@ function App() {
   return (
     <Router>
 
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="wallet" element={<Wallet />} />
+          <Route path="swap" element={<Swap />} />
+          <Route path="alerts" element={<Alerts />} />
+          <Route path="education" element={<Education />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="premium" element={<Premium />} />
+          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="events" element={<Events />} />
+          <Route path="community" element={<Community />} />
+          <Route path="token/:symbol" element={<TokenDetail />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="whales" element={<Whales />} />
+          <Route path="security" element={<Security />} />
+          <Route path="orders" element={<SmartOrders />} />
+          <Route path="copy-trading" element={<CopyTrading />} />
+          <Route path="sniping" element={<Sniping />} />
+          <Route path="history" element={<History />} />
+        </Route>
+
+
       <nav>
         <Link to="/">Dashboard</Link> |{' '}
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
         <Link to="/alerts">Alerts</Link> |{' '}
         <Link to="/education">Educación</Link> |{' '}
-        <Link to="/faq">FAQ</Link>
+        <Link to="/faq">FAQ</Link> |{' '}
+        <Link to="/login">Login</Link> |{' '}
+        <Link to="/register">Register</Link> |{' '}
+        <Link to="/onboarding">Onboarding</Link> |{' '}
+        <Link to="/wallet-setup">WalletSetup</Link> |{' '}
+        <Link to="/seed-phrase">SeedPhrase</Link> |{' '}
+        <Link to="/confirm-seed">ConfirmSeed</Link> |{' '}
+        <Link to="/send">Send</Link> |{' '}
+        <Link to="/receive">Receive</Link>
         <Link to="/settings">Settings</Link>
 
         <Link to="/premium">Premium</Link>
@@ -65,12 +109,20 @@ function App() {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/education" element={<Education />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/wallet-setup" element={<WalletSetup />} />
+        <Route path="/seed-phrase" element={<SeedPhrase />} />
+        <Route path="/confirm-seed" element={<ConfirmSeed />} />
+        <Route path="/send" element={<Send />} />
+        <Route path="/receive" element={<Receive />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/token/:symbol" element={<TokenDetail />} />
+        <Route path="/token/:address" element={<TokenDetail />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/whales" element={<Whales />} />
@@ -84,9 +136,10 @@ function App() {
         <Route path="/sniping" element={<Sniping />} />
 
         <Route path="/history" element={<History />} />
+
         <Route path="*" element={<NotFound />} />
+
       </Routes>
-      <BottomNav />
     </Router>
   );
 }

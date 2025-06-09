@@ -31,4 +31,24 @@ describe('/api/whales', () => {
       { address: 'WhaleX', token: 'SOL', amount: 1000 },
     ]);
   });
+
+  it('retrieves tracked addresses and alerts', async () => {
+    await request(app)
+      .post('/api/whales/tracked')
+      .send({ address: 'WhaleY' });
+
+    const trackedRes = await request(app).get('/api/whales/tracked');
+    expect(trackedRes.statusCode).toBe(200);
+    expect(trackedRes.body.tracked).toContain('WhaleY');
+
+    await request(app)
+      .post('/api/whales/alerts')
+      .send({ address: 'WhaleY', token: 'SOL', amount: 2000 });
+
+    const alertsRes = await request(app).get('/api/whales/alerts');
+    expect(alertsRes.statusCode).toBe(200);
+    expect(alertsRes.body.alerts).toEqual([
+      { address: 'WhaleY', token: 'SOL', amount: 2000 },
+    ]);
+  });
 });

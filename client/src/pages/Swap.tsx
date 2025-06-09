@@ -1,62 +1,61 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 
 export default function Swap() {
-  const [fromToken, setFromToken] = useState('SOL');
-  const [toToken, setToToken] = useState('USDC');
-  const [fromAmount, setFromAmount] = useState('');
-  const [toAmount, setToAmount] = useState('');
-  const [usdValue, setUsdValue] = useState('');
-  const [route] = useState<'Orca' | 'Raydium'>('Orca');
-  const [balance, setBalance] = useState<number | null>(null);
-  const [slippage] = useState(0.5);
-  const [fee] = useState(0.000005);
-  const [confirm, setConfirm] = useState(false);
-  const [swapped, setSwapped] = useState(false);
-  const [txId, setTxId] = useState('');
+  const [fromToken, setFromToken] = useState('SOL')
+  const [toToken, setToToken] = useState('USDC')
+  const [fromAmount, setFromAmount] = useState('')
+  const [toAmount, setToAmount] = useState('')
+  const [usdValue, setUsdValue] = useState('')
+  const [route] = useState<'Orca' | 'Raydium'>('Orca')
+  const [balance, setBalance] = useState<number | null>(null)
+  const [slippage] = useState(0.5)
+  const [fee] = useState(0.000005)
+  const [confirm, setConfirm] = useState(false)
+  const [swapped, setSwapped] = useState(false)
+  const [txId, setTxId] = useState('')
 
   useEffect(() => {
-    const key = localStorage.getItem('wallet');
+    const key = localStorage.getItem('wallet')
     if (key && fromToken === 'SOL') {
       import('@solana/web3.js')
         .then(({ Connection, PublicKey }) => {
-          const connection = new Connection(
-            'https://api.mainnet-beta.solana.com'
-          );
+          const rpcUrl = import.meta.env.VITE_RPC_URL
+          const connection = new Connection(rpcUrl)
           connection.getBalance(new PublicKey(key)).then((lamports: number) => {
-            setBalance(lamports / 1e9);
-          });
+            setBalance(lamports / 1e9)
+          })
         })
-        .catch(() => setBalance(null));
+        .catch(() => setBalance(null))
     } else {
-      setBalance(null);
+      setBalance(null)
     }
-  }, [fromToken]);
+  }, [fromToken])
 
   useEffect(() => {
     if (fromAmount) {
-      const token = fromToken === 'SOL' ? 'solana' : fromToken.toLowerCase();
+      const token = fromToken === 'SOL' ? 'solana' : fromToken.toLowerCase()
       fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=${token}`)
-        .then(res => res.json())
-        .then(json => {
-          const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0;
-          setUsdValue((parseFloat(fromAmount) * price).toFixed(2));
-          setToAmount(fromAmount);
+        .then((res) => res.json())
+        .then((json) => {
+          const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0
+          setUsdValue((parseFloat(fromAmount) * price).toFixed(2))
+          setToAmount(fromAmount)
         })
         .catch(() => {
-          setUsdValue('0');
-          setToAmount(fromAmount);
-        });
+          setUsdValue('0')
+          setToAmount(fromAmount)
+        })
     } else {
-      setUsdValue('');
-      setToAmount('');
+      setUsdValue('')
+      setToAmount('')
     }
-  }, [fromAmount, fromToken]);
+  }, [fromAmount, fromToken])
 
   const handleConfirm = () => {
-    setConfirm(false);
-    setSwapped(true);
-    setTxId(Math.random().toString(36).substring(2, 10).toUpperCase());
-  };
+    setConfirm(false)
+    setSwapped(true)
+    setTxId(Math.random().toString(36).substring(2, 10).toUpperCase())
+  }
 
   if (swapped) {
     return (
@@ -69,7 +68,7 @@ export default function Swap() {
         <p>Fee: {fee} SOL</p>
         <p>TX ID: {txId}</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -80,7 +79,7 @@ export default function Swap() {
           Token origen:
           <select
             value={fromToken}
-            onChange={e => setFromToken(e.target.value)}
+            onChange={(e) => setFromToken(e.target.value)}
           >
             <option value="SOL">SOL</option>
             <option value="USDC">USDC</option>
@@ -93,7 +92,7 @@ export default function Swap() {
           Cantidad:
           <input
             value={fromAmount}
-            onChange={e => setFromAmount(e.target.value)}
+            onChange={(e) => setFromAmount(e.target.value)}
             placeholder="0.0"
           />
         </label>
@@ -102,7 +101,7 @@ export default function Swap() {
       <div style={{ marginBottom: '1rem' }}>
         <label>
           Token destino:
-          <select value={toToken} onChange={e => setToToken(e.target.value)}>
+          <select value={toToken} onChange={(e) => setToToken(e.target.value)}>
             <option value="USDC">USDC</option>
             <option value="SOL">SOL</option>
           </select>
@@ -166,6 +165,5 @@ export default function Swap() {
         </button>
       )}
     </div>
-  );
+  )
 }
-
