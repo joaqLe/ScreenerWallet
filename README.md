@@ -23,3 +23,7 @@ npm run dev
 ```
 
 Open `http://localhost:5173` to view the React app.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
