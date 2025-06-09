@@ -24,6 +24,10 @@ npm run dev
 
 Open `http://localhost:5173` to view the React app.
 
+### Smart Orders
+
+Navigate to `/orders` in the client to experiment with limit and stop orders.
+
 ### Copy Trading
 
 Navigate to `/copy-trading` in the app to explore popular traders and configure
