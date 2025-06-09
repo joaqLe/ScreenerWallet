@@ -30,6 +30,16 @@ body {
   min-height: 100vh;
 }
 
+body.light {
+  color: #213547;
+  background-color: #ffffff;
+}
+
+body.dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -65,4 +75,36 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.tx-list {
+  list-style: none;
+  padding: 0;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid #888;
+  padding: 0.5rem 0;
+}
+
+.filters {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.status-completed {
+  color: #4caf50;
+}
+
+.status-pending {
+  color: #ff9800;
+}
+
+.status-failed {
+  color: #f44336;
 }

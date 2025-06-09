@@ -1,0 +1,33 @@
+.premium {
+  text-align: center;
+}
+
+.comparison {
+  margin: 1rem auto;
+  border-collapse: collapse;
+}
+
+.comparison th,
+.comparison td {
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+}
+
+.plans {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.plan {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 120px;
+}
+
+.benefits {
+  margin-top: 1rem;
+  text-align: left;
+  display: inline-block;
+}
