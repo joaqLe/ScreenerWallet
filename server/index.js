@@ -1,6 +1,9 @@
+
+const app = require('./app');
+
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
+// Use the built-in global fetch available in modern Node versions
 
 const app = express();
 app.use(cors());
@@ -26,6 +29,12 @@ const whaleTransactions = [
 
 const trackedAddresses = [];
 const whaleAlerts = [];
+// In-memory storage for sniping rules and executed snipes
+const snipingRules = [];
+const snipes = [];
+
+// In-memory store for alerts
+const alerts = [];
 
 // Simple health endpoint
 app.get('/', (req, res) => {
@@ -74,7 +83,84 @@ app.post('/api/whales/alerts', (req, res) => {
   const { address, token, amount } = req.body;
   whaleAlerts.push({ address, token, amount });
   res.json({ alerts: whaleAlerts });
+// Placeholder endpoint for contract security information
+app.get('/api/security', (req, res) => {
+  const { token } = req.query;
+  // In a real implementation this would query an on-chain indexer or security API
+  // For now return mocked data so the UI can display something useful
+  res.json({
+    token,
+    score: 72,
+    topHolders: [
+      { address: 'Holder1', share: 35 },
+      { address: 'Holder2', share: 20 },
+      { address: 'Holder3', share: 15 },
+    ],
+    properties: {
+      mintable: true,
+      mutable: false,
+      authority: 'ExampleAuthority',
+    },
+    critical: false,
+  });
+
+// Retrieve existing sniping rules
+app.get('/api/sniping/rules', (req, res) => {
+  res.json(snipingRules);
+});
+
+// Create a new sniping rule
+app.post('/api/sniping/rules', (req, res) => {
+  const rule = { id: Date.now(), ...req.body };
+  snipingRules.push(rule);
+  res.json(rule);
+});
+
+// Retrieve the last executed snipes
+app.get('/api/sniping/snipes', (req, res) => {
+  res.json(snipes);
+});
+
+// Record a new snipe (for demo purposes)
+app.post('/api/sniping/snipes', (req, res) => {
+  const snipe = { id: Date.now(), timestamp: Date.now(), ...req.body };
+  snipes.unshift(snipe);
+  // Keep only the latest 10 snipes
+  if (snipes.length > 10) snipes.pop();
+  res.json(snipe);
+
+
+// Get all alerts
+app.get('/api/alerts', (req, res) => {
+  res.json(alerts);
+});
+
+// Create a new alert
+app.post('/api/alerts', (req, res) => {
+  const { token, type, condition, notify } = req.body;
+  const alert = {
+    id: Date.now().toString(),
+    token,
+    type,
+    condition,
+    notify,
+    active: true,
+  };
+  alerts.push(alert);
+  res.json(alert);
+});
+
+// Update an alert by id (e.g., toggle active state)
+app.patch('/api/alerts/:id', (req, res) => {
+  const { id } = req.params;
+  const alert = alerts.find((a) => a.id === id);
+  if (!alert) {
+    return res.status(404).json({ error: 'Alert not found' });
+  }
+  Object.assign(alert, req.body);
+  res.json(alert);
 });
 
 const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
