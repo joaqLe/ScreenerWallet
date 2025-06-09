@@ -9,6 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// In-memory storage for sniping rules and executed snipes
+const snipingRules = [];
+const snipes = [];
+
 // In-memory store for alerts
 const alerts = [];
 
@@ -29,6 +33,31 @@ app.get('/api/prices', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch price data' });
   }
 });
+
+// Retrieve existing sniping rules
+app.get('/api/sniping/rules', (req, res) => {
+  res.json(snipingRules);
+});
+
+// Create a new sniping rule
+app.post('/api/sniping/rules', (req, res) => {
+  const rule = { id: Date.now(), ...req.body };
+  snipingRules.push(rule);
+  res.json(rule);
+});
+
+// Retrieve the last executed snipes
+app.get('/api/sniping/snipes', (req, res) => {
+  res.json(snipes);
+});
+
+// Record a new snipe (for demo purposes)
+app.post('/api/sniping/snipes', (req, res) => {
+  const snipe = { id: Date.now(), timestamp: Date.now(), ...req.body };
+  snipes.unshift(snipe);
+  // Keep only the latest 10 snipes
+  if (snipes.length > 10) snipes.pop();
+  res.json(snipe);
 
 
 // Get all alerts
