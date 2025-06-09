@@ -5,5 +5,8 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"
+  },
+  "scripts": {
+    "test": "npm --prefix server test && npm --prefix client test"
   }
 }
