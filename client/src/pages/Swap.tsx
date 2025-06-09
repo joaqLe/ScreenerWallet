@@ -1,9 +1,5 @@
 import { useState } from 'react';
 
-const ORCA_LOGO_URL =
-  'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE/logo.png';
-const RAYDIUM_LOGO_URL =
-  'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R/logo.png';
 
 export default function Swap() {
   const [from, setFrom] = useState('SOL');
@@ -33,9 +29,19 @@ export default function Swap() {
           marginTop: '1rem',
         }}
       >
-        <img src={ORCA_LOGO_URL} alt="Orca" width={32} height={32} />
+        <img
+          src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE/logo.png"
+          alt="Orca"
+          width={32}
+          height={32}
+        />
         <span style={{ fontSize: '1.5rem' }}>↔️</span>
-        <img src={RAYDIUM_LOGO_URL} alt="Raydium" width={32} height={32} />
+        <img
+          src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R/logo.png"
+          alt="Raydium"
+          width={32}
+          height={32}
+        />
       </div>
     </div>
   );
