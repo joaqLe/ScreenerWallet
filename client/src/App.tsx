@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
@@ -23,10 +23,6 @@ import CopyTrading from './pages/CopyTrading';
 import Sniping from './pages/Sniping';
 
 
-import History from './pages/History';
-
-import Profile from './pages/Profile';
-import TokenDetail from './pages/TokenDetail';
 import History from './pages/History';
 import BottomNav from './components/BottomNav';
 
@@ -55,8 +51,6 @@ function App() {
         <Link to="/whales">Whales</Link>
         <Link to="/security">Security</Link>
         <Link to="/orders">Orders</Link> |{' '}
-        <Link to="/alerts">Alerts</Link>
-        <Link to="/alerts">Alerts</Link> |{' '}
         <Link to="/copy-trading">Copy Trading</Link>
         <Link to="/sniping">Sniping</Link>
 
@@ -75,7 +69,7 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/token/:name" element={<TokenDetail />} />
+        <Route path="/token/:symbol" element={<TokenDetail />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/whales" element={<Whales />} />
@@ -87,10 +81,6 @@ function App() {
         <Route path="/copy-trading" element={<CopyTrading />} />
 
         <Route path="/sniping" element={<Sniping />} />
-
-
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/token/:symbol" element={<TokenDetail />} />
 
         <Route path="/history" element={<History />} />
       </Routes>
