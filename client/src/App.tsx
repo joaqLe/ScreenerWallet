@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import History from './pages/History';
 import './App.css';
 
 function App() {
@@ -12,13 +13,15 @@ function App() {
         <Link to="/">Dashboard</Link> |{' '}
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
-        <Link to="/alerts">Alerts</Link>
+        <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/history">Historial</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </Router>
   );
