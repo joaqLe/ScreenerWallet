@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from 'pages/Dashboard';
 import Swap from 'pages/Swap';
 import Wallet from 'pages/Wallet';
@@ -23,6 +23,8 @@ import CopyTrading from 'pages/CopyTrading';
 import Sniping from 'pages/Sniping';
 
 import History from 'pages/History';
+
+import Layout from 'components/Layout';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
 import Onboarding from 'pages/Onboarding';
@@ -39,6 +41,30 @@ import './App.css';
 function App() {
   return (
     <Router>
+
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="wallet" element={<Wallet />} />
+          <Route path="swap" element={<Swap />} />
+          <Route path="alerts" element={<Alerts />} />
+          <Route path="education" element={<Education />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="premium" element={<Premium />} />
+          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="events" element={<Events />} />
+          <Route path="community" element={<Community />} />
+          <Route path="token/:symbol" element={<TokenDetail />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="whales" element={<Whales />} />
+          <Route path="security" element={<Security />} />
+          <Route path="orders" element={<SmartOrders />} />
+          <Route path="copy-trading" element={<CopyTrading />} />
+          <Route path="sniping" element={<Sniping />} />
+          <Route path="history" element={<History />} />
+        </Route>
+
 
       <nav>
         <Link to="/">Dashboard</Link> |{' '}
@@ -106,8 +132,8 @@ function App() {
         <Route path="/sniping" element={<Sniping />} />
 
         <Route path="/history" element={<History />} />
+
       </Routes>
-      <BottomNav />
     </Router>
   );
 }
