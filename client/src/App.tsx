@@ -3,6 +3,9 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import Education from './pages/Education';
+import FAQ from './pages/FAQ';
+
 import Settings from './pages/Settings';
 import Premium from './pages/Premium';
 import Leaderboard from './pages/Leaderboard';
@@ -39,6 +42,8 @@ function App() {
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
         <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/education">Educación</Link> |{' '}
+        <Link to="/faq">FAQ</Link>
         <Link to="/settings">Settings</Link>
 
         <Link to="/premium">Premium</Link>
@@ -63,6 +68,8 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/education" element={<Education />} />
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
