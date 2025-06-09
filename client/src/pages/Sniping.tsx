@@ -25,12 +25,12 @@ export default function Sniping() {
   const [snipes, setSnipes] = useState<Snipe[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/sniping/rules')
+    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`)
       .then(res => res.json())
       .then(setRules)
       .catch(console.error);
 
-    fetch('http://localhost:3001/api/sniping/snipes')
+    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/snipes`)
       .then(res => res.json())
       .then(setSnipes)
       .catch(console.error);
@@ -44,7 +44,7 @@ export default function Sniping() {
       investment: Number(investment),
       active,
     };
-    fetch('http://localhost:3001/api/sniping/rules', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

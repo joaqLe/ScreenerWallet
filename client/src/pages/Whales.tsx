@@ -25,24 +25,24 @@ export default function Whales() {
   const [alertAmount, setAlertAmount] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/whales')
+    fetch(`${import.meta.env.VITE_API_URL}/api/whales`)
       .then(res => res.json())
       .then(json => setTransactions(json.transactions || []))
       .catch(console.error);
 
-    fetch('http://localhost:3001/api/whales/tracked')
+    fetch(`${import.meta.env.VITE_API_URL}/api/whales/tracked`)
       .then(res => res.json())
       .then(json => setTracked(json.tracked || []))
       .catch(console.error);
 
-    fetch('http://localhost:3001/api/whales/alerts')
+    fetch(`${import.meta.env.VITE_API_URL}/api/whales/alerts`)
       .then(res => res.json())
       .then(json => setAlerts(json.alerts || []))
       .catch(console.error);
   }, []);
 
   const addAddress = () => {
-    fetch('http://localhost:3001/api/whales/tracked', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/whales/tracked`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ address: newAddress }),
@@ -56,7 +56,7 @@ export default function Whales() {
   };
 
   const addAlert = () => {
-    fetch('http://localhost:3001/api/whales/alerts', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/whales/alerts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

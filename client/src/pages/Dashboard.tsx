@@ -30,7 +30,7 @@ export default function Dashboard() {
   useEffect(() => {
     Promise.all(
       tokenSymbols.map((t) =>
-        fetch(`http://localhost:3001/api/prices?token=${t}`)
+        fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=${t}`)
           .then((res) => res.json())
           .then((json) => {
             const pair = json.pairs ? json.pairs[0] : null;
