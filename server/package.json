@@ -14,11 +14,11 @@
   "dependencies": {
     "cors": "^2.8.5",
 
-    "express": "^5.1.0",
-    "node-fetch": "^3.3.2"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "jest": "^29.0.0",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "prettier": "^3.2.5"
   }
 }

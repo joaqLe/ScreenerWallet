@@ -23,7 +23,7 @@ export default function Security() {
   const [data, setData] = useState<SecurityData | null>(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/security?token=solana')
+    fetch(`${import.meta.env.VITE_API_URL}/api/security?token=solana`)
       .then(res => res.json())
       .then(setData)
       .catch(console.error);
