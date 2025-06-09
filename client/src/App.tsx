@@ -3,6 +3,8 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import Send from './pages/Send';
+import Receive from './pages/Receive';
 import './App.css';
 
 function App() {
@@ -12,12 +14,16 @@ function App() {
         <Link to="/">Dashboard</Link> |{' '}
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
+        <Link to="/send">Enviar</Link> |{' '}
+        <Link to="/receive">Recibir</Link> |{' '}
         <Link to="/alerts">Alerts</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
+        <Route path="/send" element={<Send />} />
+        <Route path="/receive" element={<Receive />} />
         <Route path="/alerts" element={<Alerts />} />
       </Routes>
     </Router>
