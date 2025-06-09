@@ -24,6 +24,7 @@ import Sniping from 'pages/Sniping';
 
 
 import History from 'pages/History';
+import NotFound from 'pages/NotFound';
 import BottomNav from 'components/BottomNav';
 
 
@@ -83,6 +84,7 @@ function App() {
         <Route path="/sniping" element={<Sniping />} />
 
         <Route path="/history" element={<History />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <BottomNav />
     </Router>
