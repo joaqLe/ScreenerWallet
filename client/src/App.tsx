@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import Premium from './pages/Premium';
 import Leaderboard from './pages/Leaderboard';
 import Events from './pages/Events';
 import Community from './pages/Community';
@@ -37,6 +38,7 @@ function App() {
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
         <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/premium">Premium</Link>
         <Link to="/leaderboard">Leaderboard</Link> |{' '}
         <Link to="/events">Events</Link>
         <Link to="/community">Community</Link>
@@ -58,6 +60,7 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/premium" element={<Premium />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/community" element={<Community />} />
