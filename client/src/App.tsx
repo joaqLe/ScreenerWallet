@@ -1,30 +1,30 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Swap from './pages/Swap';
-import Wallet from './pages/Wallet';
-import Alerts from './pages/Alerts';
-import Education from './pages/Education';
-import FAQ from './pages/FAQ';
+import Dashboard from 'pages/Dashboard';
+import Swap from 'pages/Swap';
+import Wallet from 'pages/Wallet';
+import Alerts from 'pages/Alerts';
+import Education from 'pages/Education';
+import FAQ from 'pages/FAQ';
 
-import Settings from './pages/Settings';
-import Premium from './pages/Premium';
-import Leaderboard from './pages/Leaderboard';
-import Events from './pages/Events';
-import Community from './pages/Community';
-import TokenDetail from './pages/TokenDetail';
-import Profile from './pages/Profile';
+import Settings from 'pages/Settings';
+import Premium from 'pages/Premium';
+import Leaderboard from 'pages/Leaderboard';
+import Events from 'pages/Events';
+import Community from 'pages/Community';
+import TokenDetail from 'pages/TokenDetail';
+import Profile from 'pages/Profile';
 
-import Whales from './pages/Whales';
-import Security from './pages/Security';
+import Whales from 'pages/Whales';
+import Security from 'pages/Security';
 
-import SmartOrders from './pages/SmartOrders';
+import SmartOrders from 'pages/SmartOrders';
 
-import CopyTrading from './pages/CopyTrading';
-import Sniping from './pages/Sniping';
+import CopyTrading from 'pages/CopyTrading';
+import Sniping from 'pages/Sniping';
 
 
-import History from './pages/History';
-import BottomNav from './components/BottomNav';
+import History from 'pages/History';
+import BottomNav from 'components/BottomNav';
 
 
 import './App.css';
