@@ -7,6 +7,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
