@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const fetch = (...args) =>
-  import('node-fetch').then(({ default: fetch }) => fetch(...args));
+// Use the built-in global fetch available in modern Node versions
 
 const app = express();
 app.use(cors());
