@@ -3,6 +3,8 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import Community from './pages/Community';
+import TokenDetail from './pages/TokenDetail';
 import Profile from './pages/Profile';
 
 import Whales from './pages/Whales';
@@ -33,6 +35,7 @@ function App() {
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
         <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/community">Community</Link>
         <Link to="/profile">Perfil</Link>
 
         <Link to="/whales">Whales</Link>
@@ -51,6 +54,8 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/token/:name" element={<TokenDetail />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/whales" element={<Whales />} />
@@ -75,3 +80,4 @@ function App() {
 }
 
 export default App;
+
