@@ -1,44 +1,45 @@
-import { useEffect, useState } from 'react';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { useEffect, useState } from 'react'
+import { Connection, PublicKey } from '@solana/web3.js'
 
 export default function Send() {
-  const [token, setToken] = useState('SOL');
-  const [balance, setBalance] = useState<number | null>(null);
-  const [to, setTo] = useState('');
-  const [amount, setAmount] = useState('');
-  const [usdValue, setUsdValue] = useState('');
-  const [confirm, setConfirm] = useState(false);
+  const [token, setToken] = useState('SOL')
+  const [balance, setBalance] = useState<number | null>(null)
+  const [to, setTo] = useState('')
+  const [amount, setAmount] = useState('')
+  const [usdValue, setUsdValue] = useState('')
+  const [confirm, setConfirm] = useState(false)
 
   useEffect(() => {
-    const key = localStorage.getItem('wallet');
+    const key = localStorage.getItem('wallet')
     if (key) {
-      const connection = new Connection('https://api.mainnet-beta.solana.com');
+      const rpcUrl = import.meta.env.VITE_RPC_URL
+      const connection = new Connection(rpcUrl)
       connection.getBalance(new PublicKey(key)).then((lamports: number) => {
-        setBalance(lamports / 1e9);
-      });
+        setBalance(lamports / 1e9)
+      })
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (amount) {
       fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=solana`)
-        .then(res => res.json())
-        .then(json => {
-          const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0;
-          setUsdValue((parseFloat(amount) * price).toFixed(2));
+        .then((res) => res.json())
+        .then((json) => {
+          const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0
+          setUsdValue((parseFloat(amount) * price).toFixed(2))
         })
-        .catch(() => setUsdValue('0'));
+        .catch(() => setUsdValue('0'))
     } else {
-      setUsdValue('');
+      setUsdValue('')
     }
-  }, [amount]);
+  }, [amount])
 
   const handleSend = () => {
-    alert(`Sent ${amount} ${token} to ${to} (placeholder)`);
-    setConfirm(false);
-    setTo('');
-    setAmount('');
-  };
+    alert(`Sent ${amount} ${token} to ${to} (placeholder)`)
+    setConfirm(false)
+    setTo('')
+    setAmount('')
+  }
 
   return (
     <div>
@@ -46,7 +47,7 @@ export default function Send() {
       <div>
         <label>
           Token:
-          <select value={token} onChange={e => setToken(e.target.value)}>
+          <select value={token} onChange={(e) => setToken(e.target.value)}>
             <option value="SOL">SOL</option>
             <option value="USDC">USDC</option>
           </select>
@@ -58,7 +59,7 @@ export default function Send() {
           Dirección destino:
           <input
             value={to}
-            onChange={e => setTo(e.target.value)}
+            onChange={(e) => setTo(e.target.value)}
             placeholder="Ingresar dirección"
           />
           <button type="button">Escanear QR</button>
@@ -69,7 +70,7 @@ export default function Send() {
           Cantidad:
           <input
             value={amount}
-            onChange={e => setAmount(e.target.value)}
+            onChange={(e) => setAmount(e.target.value)}
             placeholder="0.0"
           />
           {usdValue && <span> (${usdValue} USD)</span>}
@@ -98,5 +99,5 @@ export default function Send() {
         </button>
       )}
     </div>
-  );
+  )
 }
