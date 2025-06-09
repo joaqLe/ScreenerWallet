@@ -2,18 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
 
-
-interface PriceData {
-  pair: string;
-  priceUsd: string;
-  pairAddress: string;
-
 interface TokenInfo {
   symbol: string;
   icon: string;
   priceUsd: number;
   change24h: number;
-
 }
 
 const tokens: TokenInfo[] = [
@@ -27,22 +20,6 @@ export default function Dashboard() {
 
   const sortedGains = [...tokens].sort((a, b) => b.change24h - a.change24h);
   const sortedLosses = [...tokens].sort((a, b) => a.change24h - b.change24h);
-
-  useEffect(() => {
-    fetch('https://api.dexscreener.com/latest/dex/tokens/0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619')
-      .then(res => res.json())
-      .then(json => setData(json.pairs ? json.pairs[0] : null))
-      .catch(console.error);
-  }, []);
-
-  return (
-    <div>
-      <h2>Dashboard</h2>
-      {data ? (
-        <div>
-          <p>{data.pair}</p>
-          <p>Price: ${data.priceUsd}</p>
-          <a href={`/token/${data.pairAddress}`}>Ver detalle</a>
 
   const getTabData = () => {
     switch (tab) {
@@ -68,7 +45,6 @@ export default function Dashboard() {
           <div className={variation >= 0 ? 'positive' : 'negative'}>
             {variation.toFixed(2)}% 24h
           </div>
-
         </div>
         <Link to="/alerts" className="alert-icon">🔔</Link>
       </div>
