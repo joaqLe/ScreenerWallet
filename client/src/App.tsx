@@ -69,7 +69,7 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/token/:symbol" element={<TokenDetail />} />
+        <Route path="/token/:address" element={<TokenDetail />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/whales" element={<Whales />} />
