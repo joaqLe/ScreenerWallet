@@ -1,6 +1,3 @@
-
-const app = require('./app');
-
 const express = require('express');
 const cors = require('cors');
 // Use the built-in global fetch available in modern Node versions
@@ -83,6 +80,7 @@ app.post('/api/whales/alerts', (req, res) => {
   const { address, token, amount } = req.body;
   whaleAlerts.push({ address, token, amount });
   res.json({ alerts: whaleAlerts });
+});
 // Placeholder endpoint for contract security information
 app.get('/api/security', (req, res) => {
   const { token } = req.query;
@@ -103,6 +101,7 @@ app.get('/api/security', (req, res) => {
     },
     critical: false,
   });
+});
 
 // Retrieve existing sniping rules
 app.get('/api/sniping/rules', (req, res) => {
@@ -128,6 +127,7 @@ app.post('/api/sniping/snipes', (req, res) => {
   // Keep only the latest 10 snipes
   if (snipes.length > 10) snipes.pop();
   res.json(snipe);
+});
 
 
 // Get all alerts
