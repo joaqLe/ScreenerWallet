@@ -24,6 +24,9 @@ import Sniping from 'pages/Sniping';
 
 import History from 'pages/History';
 
+import NotFound from 'pages/NotFound';
+
+
 import Layout from 'components/Layout';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
@@ -33,6 +36,7 @@ import SeedPhrase from 'pages/SeedPhrase';
 import ConfirmSeed from 'pages/ConfirmSeed';
 import Send from 'pages/Send';
 import Receive from 'pages/Receive';
+
 import BottomNav from 'components/BottomNav';
 
 
@@ -132,6 +136,8 @@ function App() {
         <Route path="/sniping" element={<Sniping />} />
 
         <Route path="/history" element={<History />} />
+
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </Router>
