@@ -27,3 +27,39 @@ Open `http://localhost:5173` to view the React app.
 ### Smart Orders
 
 Navigate to `/orders` in the client to experiment with limit and stop orders.
+
+### Copy Trading
+
+Navigate to `/copy-trading` in the app to explore popular traders and configure
+your copy settings. Follow or unfollow traders and set the percentage of your
+balance to copy for each one.
+
+
+### Sniping Configuration
+
+The new **Sniping** page allows you to create automatic purchase rules. It can
+be accessed from the main navigation once the client is running. Rules are
+stored in memory on the server and can be managed via the following endpoints:
+
+```
+GET  /api/sniping/rules   - list configured rules
+POST /api/sniping/rules   - create a new rule
+GET  /api/sniping/snipes  - list latest snipes
+```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+### Environment Variables
+
+Create a `.env` file inside the `client` directory and set the Solana RPC URL
+used by the wallet:
+
+```
+VITE_RPC_URL=https://your.solana.rpc/url
+```
+
+Vite exposes variables prefixed with `VITE_` to the client application. This
+value is required for network requests performed by the wallet screen.
+
