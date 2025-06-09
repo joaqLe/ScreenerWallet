@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import Swap from './pages/Swap';
 import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
+import Whales from './pages/Whales';
 import Security from './pages/Security';
 
 import SmartOrders from './pages/SmartOrders';
@@ -30,6 +31,7 @@ function App() {
         <Link to="/wallet">Wallet</Link> |{' '}
         <Link to="/swap">Swap</Link> |{' '}
         <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/whales">Whales</Link>
         <Link to="/security">Security</Link>
         <Link to="/orders">Orders</Link> |{' '}
         <Link to="/alerts">Alerts</Link>
@@ -45,6 +47,8 @@ function App() {
         <Route path="/wallet" element={<Wallet />} />
         <Route path="/swap" element={<Swap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/whales" element={<Whales />} />
+
         <Route path="/security" element={<Security />} />
 
         <Route path="/orders" element={<SmartOrders />} />
