@@ -5,6 +5,7 @@ import Wallet from './pages/Wallet';
 import Alerts from './pages/Alerts';
 import Profile from './pages/Profile';
 import TokenDetail from './pages/TokenDetail';
+import History from './pages/History';
 import BottomNav from './components/BottomNav';
 import './App.css';
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/alerts" element={<Alerts />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/token/:symbol" element={<TokenDetail />} />
+        <Route path="/history" element={<History />} />
       </Routes>
       <BottomNav />
     </Router>
