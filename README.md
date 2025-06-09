@@ -24,6 +24,7 @@ npm run dev
 
 Open `http://localhost:5173` to view the React app.
 
+
 ### Sniping Configuration
 
 The new **Sniping** page allows you to create automatic purchase rules. It can
@@ -35,3 +36,20 @@ GET  /api/sniping/rules   - list configured rules
 POST /api/sniping/rules   - create a new rule
 GET  /api/sniping/snipes  - list latest snipes
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+### Environment Variables
+
+Create a `.env` file inside the `client` directory and set the Solana RPC URL
+used by the wallet:
+
+```
+VITE_RPC_URL=https://your.solana.rpc/url
+```
+
+Vite exposes variables prefixed with `VITE_` to the client application. This
+value is required for network requests performed by the wallet screen.
+
