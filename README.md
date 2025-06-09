@@ -88,7 +88,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Environment Variables
 
-Create a `.env` file inside the `client` directory and set the following values:
+Copy `client/.env.example` to `client/.env` and update the values:
 
 ```
 VITE_RPC_URL=https://your.solana.rpc/url
