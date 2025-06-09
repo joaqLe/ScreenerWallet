@@ -81,13 +81,13 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Environment Variables
 
-Create a `.env` file inside the `client` directory and set the Solana RPC URL
-used by the wallet:
+Create a `.env` file inside the `client` directory and set the following values:
 
 ```
 VITE_RPC_URL=https://your.solana.rpc/url
+VITE_API_URL=http://localhost:3001
 ```
 
-Vite exposes variables prefixed with `VITE_` to the client application. This
-value is required for network requests performed by the wallet screen.
+Vite exposes variables prefixed with `VITE_` to the client application. These
+values are required for network requests performed by the wallet screen.
 

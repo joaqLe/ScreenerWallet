@@ -21,7 +21,7 @@ export default function Send() {
 
   useEffect(() => {
     if (amount) {
-      fetch('http://localhost:3001/api/prices?token=solana')
+      fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=solana`)
         .then(res => res.json())
         .then(json => {
           const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0;
