@@ -32,6 +32,13 @@ npm run dev
 
 Open `http://localhost:5173` to view the React app.
 
+### Settings
+
+The client now includes a simple settings page where you can:
+
+- Toggle dark or light mode.
+- Enable or disable biometric/PIN security (placeholder).
+- Control global notifications.
 The navigation bar now includes a **Perfil** link where you can customize your alias, avatar,
 visualize performance statistics and badges, and ajustar configuración de idioma,
 moneda preferida y seguridad 2FA.
