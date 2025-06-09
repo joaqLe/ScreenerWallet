@@ -8,7 +8,6 @@ A minimal prototype implementing Phase 1 of the ScreenerWallet roadmap.
 - npm 9 or later
 - Run `npm install` in both the `server` and `client` directories
 
-
 ## Getting Started
 
 ### Server
@@ -94,8 +93,9 @@ Copy `client/.env.example` to `client/.env` and update the values:
 VITE_RPC_URL=https://your.solana.rpc/url
 VITE_API_URL=http://localhost:3001
 ```
+
 Vite exposes variables prefixed with `VITE_` to the client application.
-`VITE_RPC_URL` is required for Solana RPC calls.
+`VITE_RPC_URL` defines the Solana RPC endpoint used by pages like **Send** and **Swap**.
 `VITE_API_URL` defines the base URL for API requests (default `http://localhost:3001`).
 
 ### Testing
