@@ -106,6 +106,12 @@ You can also run `npm test` inside each subdirectory to execute them individuall
 Vite exposes variables prefixed with `VITE_` to the client application. These
 values are required for network requests performed by the wallet screen.
 
+### Continuous Integration
+
+Pull requests trigger a GitHub Actions workflow defined in `.github/workflows/ci.yml`.
+The workflow installs dependencies, runs `npm test` and `npm run lint`, and then
+builds both the server and client.
+
 ## Contributing
 
 Install dependencies in the root, server and client folders before working on the project:

@@ -10,7 +10,9 @@
   },
   "scripts": {
     "test": "npm --prefix server test && npm --prefix client test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "npm --prefix client run lint",
+    "build": "npm --prefix server run build && npm --prefix client run build"
   },
   "lint-staged": {
     "*": "prettier --check"
