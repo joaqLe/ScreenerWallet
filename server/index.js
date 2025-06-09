@@ -1,6 +1,9 @@
+
+const app = require('./app');
+
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch');
+// Use the built-in global fetch available in modern Node versions
 
 const app = express();
 app.use(cors());
@@ -26,6 +29,7 @@ app.get('/api/prices', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch price data' });
   }
 });
+
 
 // Get all alerts
 app.get('/api/alerts', (req, res) => {
@@ -59,4 +63,5 @@ app.patch('/api/alerts/:id', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
