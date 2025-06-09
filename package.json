@@ -12,7 +12,11 @@
     "test": "npm --prefix server test && npm --prefix client test",
     "prepare": "husky install",
     "lint": "npm --prefix client run lint",
-    "build": "npm --prefix server run build && npm --prefix client run build"
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "start": "npm run build && pm2 start ecosystem.config.js",
+    "lint:fix": "eslint . --fix && prettier --write ."
   },
   "lint-staged": {
     "*": "prettier --check"
