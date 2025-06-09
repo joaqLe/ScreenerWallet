@@ -35,7 +35,7 @@ export default function Swap() {
   useEffect(() => {
     if (fromAmount) {
       const token = fromToken === 'SOL' ? 'solana' : fromToken.toLowerCase();
-      fetch(`http://localhost:3001/api/prices?token=${token}`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=${token}`)
         .then(res => res.json())
         .then(json => {
           const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0;
