@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useAlerts } from '../hooks/useAlerts';
 
 interface Alert {
   id: string;
@@ -17,7 +18,7 @@ interface Alert {
 }
 
 export default function Alerts() {
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const { alerts: alertsQuery, createAlert, updateAlert } = useAlerts();
   const [token, setToken] = useState('');
   const [type, setType] = useState('price');
   const [operator, setOperator] = useState('>');
@@ -26,48 +27,23 @@ export default function Alerts() {
   const [email, setEmail] = useState(false);
   const [telegram, setTelegram] = useState(false);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
-      .then((res) => res.json())
-      .then(setAlerts)
-      .catch(console.error);
-  }, []);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        token,
-        type,
-        condition: { operator, value: Number(value) },
-        notify: { push, email, telegram },
-      }),
-    })
-      .then((res) => res.json())
-      .then((alert: Alert) => {
-        setAlerts([...alerts, alert]);
-        setToken('');
-        setValue('');
-        setPush(false);
-        setEmail(false);
-        setTelegram(false);
-      })
-      .catch(console.error);
+    createAlert.mutate({
+      token,
+      type,
+      condition: { operator, value: Number(value) },
+      notify: { push, email, telegram },
+    });
+    setToken('');
+    setValue('');
+    setPush(false);
+    setEmail(false);
+    setTelegram(false);
   };
 
   const toggleAlert = (alert: Alert) => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts/${alert.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ active: !alert.active }),
-    })
-      .then((res) => res.json())
-      .then((updated: Alert) => {
-        setAlerts(alerts.map((a) => (a.id === updated.id ? updated : a)));
-      })
-      .catch(console.error);
+    updateAlert.mutate({ id: alert.id, active: !alert.active });
   };
 
   return (
@@ -143,7 +119,7 @@ export default function Alerts() {
       </form>
       <h3>Alertas activas</h3>
       <ul>
-        {alerts.map((a) => (
+        {alertsQuery.data?.map((a) => (
           <li key={a.id}>
             {a.token} {a.type} {a.condition.operator} {a.condition.value} -{' '}
             {a.active ? 'Activo' : 'Inactivo'}

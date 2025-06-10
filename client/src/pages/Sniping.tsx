@@ -1,12 +1,5 @@
 import { useEffect, useState } from 'react';
-
-interface SnipingRule {
-  id: number;
-  liquidity: number;
-  volume: number;
-  investment: number;
-  active: boolean;
-}
+import { useSniping } from '../hooks/useSniping';
 
 interface Snipe {
   id: number;
@@ -21,15 +14,10 @@ export default function Sniping() {
   const [investment, setInvestment] = useState('');
   const [active, setActive] = useState(true);
 
-  const [rules, setRules] = useState<SnipingRule[]>([]);
+  const { rules, createRule, deleteRule } = useSniping();
   const [snipes, setSnipes] = useState<Snipe[]>([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`)
-      .then(res => res.json())
-      .then(setRules)
-      .catch(console.error);
-
     fetch(`${import.meta.env.VITE_API_URL}/api/sniping/snipes`)
       .then(res => res.json())
       .then(setSnipes)
@@ -44,20 +32,12 @@ export default function Sniping() {
       investment: Number(investment),
       active,
     };
-    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    })
-      .then(res => res.json())
-      .then(rule => {
-        setRules([...rules, rule]);
-        setLiquidity('');
-        setVolume('');
-        setInvestment('');
-        setActive(true);
-      })
-      .catch(console.error);
+    createRule(body).then(() => {
+      setLiquidity('');
+      setVolume('');
+      setInvestment('');
+      setActive(true);
+    });
   };
 
   return (
@@ -97,6 +77,12 @@ export default function Sniping() {
           <li key={rule.id}>
             Liquidez: {rule.liquidity} | Volumen: {rule.volume} | Inversión:{' '}
             {rule.investment} | {rule.active ? 'Activa' : 'Inactiva'}
+            <button
+              onClick={() => deleteRule(rule.id)}
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Eliminar
+            </button>
           </li>
         ))}
       </ul>

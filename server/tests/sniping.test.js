@@ -18,6 +18,14 @@ describe('/api/sniping', () => {
     const rules = await request(app).get('/api/sniping/rules');
     expect(rules.body).toHaveLength(1);
 
+    const delRes = await request(app).delete(
+      `/api/sniping/rules/${ruleRes.body.id}`,
+    );
+    expect(delRes.statusCode).toBe(200);
+
+    const empty = await request(app).get('/api/sniping/rules');
+    expect(empty.body).toHaveLength(0);
+
     const snipeRes = await request(app)
       .post('/api/sniping/snipes')
       .send({ token: 'SOL', price: 10 });

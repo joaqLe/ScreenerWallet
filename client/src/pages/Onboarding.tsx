@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import styles from '../App.module.css';
 
 interface Slide {
   title: string;
@@ -43,7 +43,7 @@ export default function Onboarding() {
 
   const slide = slides[index];
   return (
-    <div className="onboarding-slide">
+    <div className={styles['onboarding-slide']}>
       <h2>{slide.title}</h2>
       <p>{slide.text}</p>
       {slide.final ? (
