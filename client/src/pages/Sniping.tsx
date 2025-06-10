@@ -10,6 +10,7 @@ interface SnipingRule {
   investment: number;
   active: boolean;
 }
+import { useSniping } from '../hooks/useSniping';
 
 interface Snipe {
   id: number;
@@ -55,15 +56,10 @@ export default function Sniping() {
     defaultValues: { active: true },
   });
 
-  const [rules, setRules] = useState<SnipingRule[]>([]);
+  const { rules, createRule, deleteRule } = useSniping();
   const [snipes, setSnipes] = useState<Snipe[]>([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`)
-      .then(res => res.json())
-      .then(setRules)
-      .catch(console.error);
-
     fetch(`${import.meta.env.VITE_API_URL}/api/sniping/snipes`)
       .then(res => res.json())
       .then(setSnipes)
@@ -87,6 +83,20 @@ export default function Sniping() {
         reset({ liquidity: undefined, volume: undefined, investment: undefined, active: true });
       })
       .catch(console.error);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const body = {
+      liquidity: Number(liquidity),
+      volume: Number(volume),
+      investment: Number(investment),
+      active,
+    };
+    createRule(body).then(() => {
+      setLiquidity('');
+      setVolume('');
+      setInvestment('');
+      setActive(true);
+    });
   };
 
   return (
@@ -126,6 +136,12 @@ export default function Sniping() {
           <li key={rule.id}>
             Liquidez: {rule.liquidity} | Volumen: {rule.volume} | Inversión:{' '}
             {rule.investment} | {rule.active ? 'Activa' : 'Inactiva'}
+            <button
+              onClick={() => deleteRule(rule.id)}
+              style={{ marginLeft: '0.5rem' }}
+            >
+              Eliminar
+            </button>
           </li>
         ))}
       </ul>

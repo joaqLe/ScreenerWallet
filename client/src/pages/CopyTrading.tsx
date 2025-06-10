@@ -1,14 +1,6 @@
-import { useEffect, useState } from 'react';
-
-interface Trader {
-  alias: string;
-  address: string;
-}
-
-interface FollowedTrader extends Trader {
-  copyPercent: number;
-  active: boolean;
-}
+import { useState } from 'react';
+import type { Trader, FollowedTrader } from '../services/copy';
+import useCopyTrading from '../hooks/useCopyTrading';
 
 const popularTraders: Trader[] = [
   { alias: 'Trader Alpha', address: '0xAlpha' },
@@ -18,39 +10,27 @@ const popularTraders: Trader[] = [
 
 export default function CopyTrading() {
   const [search, setSearch] = useState('');
-  const [followed, setFollowed] = useState<FollowedTrader[]>([]);
-
-  useEffect(() => {
-    const stored = localStorage.getItem('followedTraders');
-    if (stored) {
-      setFollowed(JSON.parse(stored));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('followedTraders', JSON.stringify(followed));
-  }, [followed]);
+  const {
+    followers: followed,
+    follow,
+    unfollow,
+    updateFollower,
+  } = useCopyTrading();
 
   const handleFollow = (trader: Trader) => {
-    setFollowed(prev => {
-      if (prev.find(t => t.address === trader.address)) {
-        return prev.filter(t => t.address !== trader.address);
-      } else {
-        return [...prev, { ...trader, copyPercent: 100, active: true }];
-      }
-    });
+    if (followed.some((t) => t.address === trader.address)) {
+      unfollow(trader.address);
+    } else {
+      follow(trader);
+    }
   };
 
   const updatePercent = (address: string, percent: number) => {
-    setFollowed(prev =>
-      prev.map(t => (t.address === address ? { ...t, copyPercent: percent } : t))
-    );
+    updateFollower(address, (t) => ({ ...t, copyPercent: percent }));
   };
 
   const toggleActive = (address: string) => {
-    setFollowed(prev =>
-      prev.map(t => (t.address === address ? { ...t, active: !t.active } : t))
-    );
+    updateFollower(address, (t) => ({ ...t, active: !t.active }));
   };
 
   const filtered = popularTraders.filter(t =>
