@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from 'components/Layout';
 
 import Dashboard from 'pages/Dashboard';
@@ -42,6 +43,20 @@ import Send from 'pages/Send';
 import Receive from 'pages/Receive';
 
 import './App.css';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      cacheTime: 5 * 60 * 1000,
+    },
+  },
+});
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
 
 export default function App() {
   return (
@@ -149,6 +164,7 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
 
       </Routes>
-    </Router>
+      </Router>
+    </QueryClientProvider>
   );
 }
