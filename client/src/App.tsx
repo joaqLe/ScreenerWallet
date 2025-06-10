@@ -40,6 +40,7 @@ import './App.css'
 
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from 'components/Layout';
 
@@ -100,6 +101,34 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    }
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+    const ws = new WebSocket(
+      import.meta.env.VITE_WS_URL || 'ws://localhost:3001'
+    );
+    ws.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'alert') {
+          navigator.serviceWorker.ready.then((reg) => {
+            reg.active?.postMessage({
+              title: 'Nueva alerta',
+              options: { body: `${data.alert.token} ${data.alert.type}` },
+            });
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+    return () => ws.close();
+  }, []);
+
   return (
 
     <QueryClientProvider client={queryClient}>

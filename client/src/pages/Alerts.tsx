@@ -23,8 +23,11 @@ export default function Alerts() {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [showModal, setShowModal] = useState(false);
 
+  const API_URL =
+    (import.meta as any).env?.VITE_API_URL || process.env.VITE_API_URL || '';
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
+    fetch(`${API_URL}/api/alerts`)
       .then((res) => res.json())
       .then(setAlerts)
       .catch(console.error);
@@ -44,6 +47,39 @@ export default function Alerts() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    fetch(`${API_URL}/api/alerts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token,
+        type,
+        condition: { operator, value: Number(value) },
+        notify: { push, email, telegram },
+      }),
+    })
+      .then((res) => res.json())
+      .then((alert: Alert) => {
+        setAlerts([...alerts, alert]);
+        setToken('');
+        setValue('');
+        setPush(false);
+        setEmail(false);
+        setTelegram(false);
+      })
+      .catch(console.error);
+  };
+
+  const toggleAlert = (alert: Alert) => {
+    fetch(`${API_URL}/api/alerts/${alert.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ active: !alert.active }),
+    })
+      .then((res) => res.json())
+      .then((updated: Alert) => {
+        setAlerts(alerts.map((a) => (a.id === updated.id ? updated : a)));
+      })
+      .catch(console.error);
     createAlert.mutate({
       token,
       type,
