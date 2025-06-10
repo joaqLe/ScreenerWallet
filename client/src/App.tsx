@@ -83,6 +83,11 @@ import ConfirmSeed from 'pages/ConfirmSeed';
 import Send from 'pages/Send';
 import Receive from 'pages/Receive';
 
+import BottomNav from 'components/BottomNav';
+
+
+import styles from './App.module.css';
+void styles;
 import './App.css';
 
 const queryClient = new QueryClient({
