@@ -10,6 +10,8 @@ module.exports = {
     'ts-jest': {
       useESM: true,
       tsconfig: 'tsconfig.test.json',
+      useESM: true,
     },
   },
-};
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+}

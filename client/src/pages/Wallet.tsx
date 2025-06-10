@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWalletContext } from '../context/WalletContext';
 import './Dashboard.css';
 
 interface WalletToken {
@@ -18,6 +19,7 @@ const tokens: WalletToken[] = [
 
 export default function Wallet() {
   const navigate = useNavigate();
+  const { publicKey, balance, connect, disconnect } = useWalletContext();
   const [solPrice, setSolPrice] = useState<number>(150);
 
   useEffect(() => {
@@ -48,6 +50,17 @@ export default function Wallet() {
           </div>
         </div>
       </div>
+      {publicKey ? (
+        <div style={{ padding: '0.5rem' }}>
+          <p>Conectado: {publicKey}</p>
+          {balance !== null && <p>Saldo: {balance} SOL</p>}
+          <button onClick={disconnect}>Desconectar</button>
+        </div>
+      ) : (
+        <div style={{ padding: '0.5rem' }}>
+          <button onClick={connect}>Conectar wallet</button>
+        </div>
+      )}
       <ul className="token-list">
         {tokens.map(t => (
           <li key={t.symbol}>
