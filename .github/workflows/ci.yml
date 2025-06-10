@@ -31,4 +31,10 @@ jobs:
         run: npm --prefix server run build
       - name: Build client
         run: npm --prefix client run build
+      - name: Install Dependencies (server)
+        run: cd server && npm ci
+      - name: Run Server Tests
+        run: cd server && npm test
+      - name: Build & Test Client
+        run: cd client && npm ci && npm run build && npm test
 
