@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Alerts from '../Alerts';
 
 test('renders Alerts heading', async () => {
@@ -6,6 +7,11 @@ test('renders Alerts heading', async () => {
     Promise.resolve({ json: () => Promise.resolve([]) })
   ) as jest.Mock;
 
-  render(<Alerts />);
+  const client = new QueryClient();
+  render(
+    <QueryClientProvider client={client}>
+      <Alerts />
+    </QueryClientProvider>
+  );
   expect(screen.getByText('Alertas')).toBeTruthy();
 });
