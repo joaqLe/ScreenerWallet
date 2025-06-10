@@ -40,7 +40,8 @@ import Receive from 'pages/Receive';
 import BottomNav from 'components/BottomNav';
 
 
-import './App.css';
+import styles from './App.module.css';
+void styles;
 
 function App() {
   return (
