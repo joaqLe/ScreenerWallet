@@ -12,6 +12,8 @@ if (savedTheme === 'dark' || savedTheme === 'light') {
   document.body.classList.add(savedTheme)
 }
 
+const queryClient = new QueryClient()
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

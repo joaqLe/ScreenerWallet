@@ -116,6 +116,17 @@ app.post('/api/sniping/rules', (req, res) => {
   res.json(rule);
 });
 
+// Delete a sniping rule by id
+app.delete('/api/sniping/rules/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const index = snipingRules.findIndex((r) => r.id === id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Rule not found' });
+  }
+  const [removed] = snipingRules.splice(index, 1);
+  res.json(removed);
+});
+
 // Retrieve the last executed snipes
 app.get('/api/sniping/snipes', (req, res) => {
   res.json(snipes);
