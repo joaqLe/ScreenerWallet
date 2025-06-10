@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Dashboard from 'pages/Dashboard';
 import Swap from 'pages/Swap';
 import Wallet from 'pages/Wallet';
@@ -43,6 +44,34 @@ import BottomNav from 'components/BottomNav';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
+    }
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+    const ws = new WebSocket(
+      import.meta.env.VITE_WS_URL || 'ws://localhost:3001'
+    );
+    ws.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'alert') {
+          navigator.serviceWorker.ready.then((reg) => {
+            reg.active?.postMessage({
+              title: 'Nueva alerta',
+              options: { body: `${data.alert.token} ${data.alert.type}` },
+            });
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    });
+    return () => ws.close();
+  }, []);
+
   return (
     <Router>
 

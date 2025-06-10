@@ -26,8 +26,11 @@ export default function Alerts() {
   const [email, setEmail] = useState(false);
   const [telegram, setTelegram] = useState(false);
 
+  const API_URL =
+    (import.meta as any).env?.VITE_API_URL || process.env.VITE_API_URL || '';
+
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
+    fetch(`${API_URL}/api/alerts`)
       .then((res) => res.json())
       .then(setAlerts)
       .catch(console.error);
@@ -35,7 +38,7 @@ export default function Alerts() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`, {
+    fetch(`${API_URL}/api/alerts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -58,7 +61,7 @@ export default function Alerts() {
   };
 
   const toggleAlert = (alert: Alert) => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/alerts/${alert.id}`, {
+    fetch(`${API_URL}/api/alerts/${alert.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ active: !alert.active }),

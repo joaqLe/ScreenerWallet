@@ -16,6 +16,7 @@ describe('/api/security', () => {
     expect(res.body).toHaveProperty('score');
     expect(Array.isArray(res.body.topHolders)).toBe(true);
     expect(res.body).toHaveProperty('properties');
+  });
 
   it('returns mock security info for a token', async () => {
     const res = await request(app).get('/api/security?token=TEST');

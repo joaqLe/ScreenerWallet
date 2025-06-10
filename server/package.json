@@ -14,12 +14,12 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
-
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "jest": "^29.0.0",
-    "supertest": "^6.3.3",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "supertest": "^6.3.3"
   }
 }

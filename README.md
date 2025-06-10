@@ -92,11 +92,13 @@ Copy `client/.env.example` to `client/.env` and update the values:
 ```
 VITE_RPC_URL=https://your.solana.rpc/url
 VITE_API_URL=http://localhost:3001
+VITE_WS_URL=ws://localhost:3001
 ```
 
 Vite exposes variables prefixed with `VITE_` to the client application.
 `VITE_RPC_URL` defines the Solana RPC endpoint used by pages like **Send** and **Swap**.
 `VITE_API_URL` defines the base URL for API requests (default `http://localhost:3001`).
+`VITE_WS_URL` defines the WebSocket endpoint used for real-time alerts.
 
 ### Testing
 
