@@ -8,7 +8,6 @@ beforeEach(() => {
 });
 
 describe('/api/security', () => {
-
   it('returns mock security data for a token', async () => {
     const res = await request(app).get('/api/security?token=SOL');
     expect(res.statusCode).toBe(200);
