@@ -1,51 +1,46 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from 'pages/Dashboard';
-import Swap from 'pages/Swap';
-import Wallet from 'pages/Wallet';
-import Alerts from 'pages/Alerts';
-import Education from 'pages/Education';
-import FAQ from 'pages/FAQ';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Dashboard from 'pages/Dashboard'
+import Swap from 'pages/Swap'
+import Wallet from 'pages/Wallet'
+import Alerts from 'pages/Alerts'
+import Education from 'pages/Education'
+import FAQ from 'pages/FAQ'
 
-import Settings from 'pages/Settings';
-import Premium from 'pages/Premium';
-import Leaderboard from 'pages/Leaderboard';
-import Events from 'pages/Events';
-import Community from 'pages/Community';
-import TokenDetail from 'pages/TokenDetail';
-import Profile from 'pages/Profile';
+import Settings from 'pages/Settings'
+import Premium from 'pages/Premium'
+import Leaderboard from 'pages/Leaderboard'
+import Events from 'pages/Events'
+import Community from 'pages/Community'
+import TokenDetail from 'pages/TokenDetail'
+import Profile from 'pages/Profile'
 
-import Whales from 'pages/Whales';
-import Security from 'pages/Security';
+import Whales from 'pages/Whales'
+import Security from 'pages/Security'
 
-import SmartOrders from 'pages/SmartOrders';
+import SmartOrders from 'pages/SmartOrders'
 
-import CopyTrading from 'pages/CopyTrading';
-import Sniping from 'pages/Sniping';
+import CopyTrading from 'pages/CopyTrading'
+import Sniping from 'pages/Sniping'
 
-import History from 'pages/History';
+import History from 'pages/History'
 
-import NotFound from 'pages/NotFound';
+import NotFound from 'pages/NotFound'
 
+import Layout from 'components/Layout'
+import Login from 'pages/Login'
+import Register from 'pages/Register'
+import Onboarding from 'pages/Onboarding'
+import WalletSetup from 'pages/WalletSetup'
+import SeedPhrase from 'pages/SeedPhrase'
+import ConfirmSeed from 'pages/ConfirmSeed'
+import Send from 'pages/Send'
+import Receive from 'pages/Receive'
 
-import Layout from 'components/Layout';
-import Login from 'pages/Login';
-import Register from 'pages/Register';
-import Onboarding from 'pages/Onboarding';
-import WalletSetup from 'pages/WalletSetup';
-import SeedPhrase from 'pages/SeedPhrase';
-import ConfirmSeed from 'pages/ConfirmSeed';
-import Send from 'pages/Send';
-import Receive from 'pages/Receive';
-
-import BottomNav from 'components/BottomNav';
-
-
-import './App.css';
+import './App.css'
 
 function App() {
   return (
     <Router>
-
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
@@ -68,37 +63,29 @@ function App() {
           <Route path="sniping" element={<Sniping />} />
           <Route path="history" element={<History />} />
         </Route>
-
+      </Routes>
 
       <nav>
-        <Link to="/">Dashboard</Link> |{' '}
-        <Link to="/wallet">Wallet</Link> |{' '}
-        <Link to="/swap">Swap</Link> |{' '}
-        <Link to="/alerts">Alerts</Link> |{' '}
-        <Link to="/education">Educación</Link> |{' '}
-        <Link to="/faq">FAQ</Link> |{' '}
-        <Link to="/login">Login</Link> |{' '}
-        <Link to="/register">Register</Link> |{' '}
+        <Link to="/">Dashboard</Link> | <Link to="/wallet">Wallet</Link> |{' '}
+        <Link to="/swap">Swap</Link> | <Link to="/alerts">Alerts</Link> |{' '}
+        <Link to="/education">Educación</Link> | <Link to="/faq">FAQ</Link> |{' '}
+        <Link to="/login">Login</Link> | <Link to="/register">Register</Link> |{' '}
         <Link to="/onboarding">Onboarding</Link> |{' '}
         <Link to="/wallet-setup">WalletSetup</Link> |{' '}
         <Link to="/seed-phrase">SeedPhrase</Link> |{' '}
         <Link to="/confirm-seed">ConfirmSeed</Link> |{' '}
-        <Link to="/send">Send</Link> |{' '}
-        <Link to="/receive">Receive</Link>
+        <Link to="/send">Send</Link> | <Link to="/receive">Receive</Link>
         <Link to="/settings">Settings</Link>
-
         <Link to="/premium">Premium</Link>
         <Link to="/leaderboard">Leaderboard</Link> |{' '}
         <Link to="/events">Events</Link>
         <Link to="/community">Community</Link>
         <Link to="/profile">Perfil</Link>
-
         <Link to="/whales">Whales</Link>
         <Link to="/security">Security</Link>
         <Link to="/orders">Orders</Link> |{' '}
         <Link to="/copy-trading">Copy Trading</Link>
         <Link to="/sniping">Sniping</Link>
-
         <Link to="/history">Historial</Link>
       </nav>
 
@@ -138,11 +125,9 @@ function App() {
         <Route path="/history" element={<History />} />
 
         <Route path="*" element={<NotFound />} />
-
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
-
+export default App
