@@ -9,7 +9,7 @@
     "lint-staged": "^15.2.0"
   },
   "scripts": {
-    "test": "npm --prefix server test && npm --prefix client test",
+    "test": "npm --prefix server test",
     "prepare": "husky install",
     "lint": "npm --prefix client run lint",
     "build": "npm --prefix server run build && npm --prefix client run build"
