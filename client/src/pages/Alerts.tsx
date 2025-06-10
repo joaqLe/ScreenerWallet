@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import NewAlertModal from 'components/NewAlertModal';
 import { useState } from 'react';
 import { useAlerts } from '../hooks/useAlerts';
 
@@ -18,6 +20,19 @@ interface Alert {
 }
 
 export default function Alerts() {
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/alerts`)
+      .then((res) => res.json())
+      .then(setAlerts)
+      .catch(console.error);
+  }, []);
+
+  const handleCreated = (alert: Alert) => {
+    setAlerts([...alerts, alert]);
+
   const { alerts: alertsQuery, createAlert, updateAlert } = useAlerts();
   const [token, setToken] = useState('');
   const [type, setType] = useState('price');
@@ -49,74 +64,15 @@ export default function Alerts() {
   return (
     <div>
       <h2>Alertas</h2>
-      <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
-        <div>
-          <label>
-            Token:
-            <input
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="SOL"
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Tipo:
-            <select value={type} onChange={(e) => setType(e.target.value)}>
-              <option value="price">Precio</option>
-              <option value="volume">Volumen</option>
-              <option value="whale">Ballena</option>
-              <option value="newToken">Token nuevo</option>
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Condición:
-            <select
-              value={operator}
-              onChange={(e) => setOperator(e.target.value)}
-            >
-              <option value="">-</option>
-              <option value=">">Mayor que</option>
-              <option value="<">Menor que</option>
-            </select>
-            <input
-              type="number"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={push}
-              onChange={(e) => setPush(e.target.checked)}
-            />
-            Push móvil
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={email}
-              onChange={(e) => setEmail(e.target.checked)}
-            />
-            Email
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={telegram}
-              onChange={(e) => setTelegram(e.target.checked)}
-            />
-            Telegram
-          </label>
-        </div>
-        <button type="submit">Crear alerta</button>
-      </form>
+      <button onClick={() => setShowModal(true)} style={{ marginBottom: '1rem' }}>
+        Nueva alerta
+      </button>
+      {showModal && (
+        <NewAlertModal
+          onCreated={handleCreated}
+          onClose={() => setShowModal(false)}
+        />
+      )}
       <h3>Alertas activas</h3>
       <ul>
         {alertsQuery.data?.map((a) => (
