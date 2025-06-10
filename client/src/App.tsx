@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Dashboard from 'pages/Dashboard';
 import Swap from 'pages/Swap';
 import Wallet from 'pages/Wallet';
@@ -42,9 +43,19 @@ import BottomNav from 'components/BottomNav';
 
 import './App.css';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      cacheTime: 5 * 60 * 1000,
+    },
+  },
+});
+
 function App() {
   return (
-    <Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
 
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -140,7 +151,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
 
       </Routes>
-    </Router>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
