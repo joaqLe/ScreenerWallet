@@ -37,9 +37,6 @@ import ConfirmSeed from 'pages/ConfirmSeed';
 import Send from 'pages/Send';
 import Receive from 'pages/Receive';
 
-import BottomNav from 'components/BottomNav';
-
-
 import './App.css';
 
 function App() {
@@ -68,7 +65,7 @@ function App() {
           <Route path="sniping" element={<Sniping />} />
           <Route path="history" element={<History />} />
         </Route>
-
+      </Routes>
 
       <nav>
         <Link to="/">Dashboard</Link> |{' '}
