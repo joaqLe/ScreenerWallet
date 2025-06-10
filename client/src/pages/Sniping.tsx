@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 interface SnipingRule {
   id: number;
@@ -16,10 +19,41 @@ interface Snipe {
 }
 
 export default function Sniping() {
-  const [liquidity, setLiquidity] = useState('');
-  const [volume, setVolume] = useState('');
-  const [investment, setInvestment] = useState('');
-  const [active, setActive] = useState(true);
+  const schema = yup
+    .object({
+      liquidity: yup
+        .number()
+        .typeError('Requerido')
+        .min(0, 'Debe ser mayor o igual a 0')
+        .required('Requerido'),
+      volume: yup
+        .number()
+        .typeError('Requerido')
+        .min(0, 'Debe ser mayor o igual a 0')
+        .required('Requerido'),
+      investment: yup
+        .number()
+        .typeError('Requerido')
+        .min(0, 'Debe ser mayor o igual a 0')
+        .required('Requerido'),
+      active: yup.boolean().required(),
+    })
+    .required();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<{
+    liquidity: number;
+    volume: number;
+    investment: number;
+    active: boolean;
+  }>({
+    resolver: yupResolver(schema),
+    defaultValues: { active: true },
+  });
 
   const [rules, setRules] = useState<SnipingRule[]>([]);
   const [snipes, setSnipes] = useState<Snipe[]>([]);
@@ -36,26 +70,21 @@ export default function Sniping() {
       .catch(console.error);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const body = {
-      liquidity: Number(liquidity),
-      volume: Number(volume),
-      investment: Number(investment),
-      active,
-    };
+  const onSubmit = (data: {
+    liquidity: number;
+    volume: number;
+    investment: number;
+    active: boolean;
+  }) => {
     fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(rule => {
+      .then((res) => res.json())
+      .then((rule) => {
         setRules([...rules, rule]);
-        setLiquidity('');
-        setVolume('');
-        setInvestment('');
-        setActive(true);
+        reset({ liquidity: undefined, volume: undefined, investment: undefined, active: true });
       })
       .catch(console.error);
   };
@@ -63,30 +92,30 @@ export default function Sniping() {
   return (
     <div>
       <h2>Sniping</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Liquidez mínima (SOL/USD):
-          <input value={liquidity} onChange={e => setLiquidity(e.target.value)} />
+          <input type="number" {...register('liquidity')} />
         </label>
+        {errors.liquidity && <span>{errors.liquidity.message}</span>}
         <br />
         <label>
           Volumen inicial:
-          <input value={volume} onChange={e => setVolume(e.target.value)} />
+          <input type="number" {...register('volume')} />
         </label>
+        {errors.volume && <span>{errors.volume.message}</span>}
         <br />
         <label>
           Cantidad automática invertir:
-          <input value={investment} onChange={e => setInvestment(e.target.value)} />
+          <input type="number" {...register('investment')} />
         </label>
+        {errors.investment && <span>{errors.investment.message}</span>}
         <br />
         <label>
           Activa:
-          <input
-            type="checkbox"
-            checked={active}
-            onChange={e => setActive(e.target.checked)}
-          />
+          <input type="checkbox" {...register('active')} />
         </label>
+        {errors.active && <span>{errors.active.message}</span>}
         <br />
         <button type="submit">Crear Regla</button>
       </form>
