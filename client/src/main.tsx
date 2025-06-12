@@ -4,22 +4,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './index.css';
 import App from './App.tsx';
 import { WalletProvider } from './context/WalletContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Inicializa React Query Client
 const queryClient = new QueryClient();
 
-// Aplica tema guardado si existe
-const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-if (savedTheme === 'dark' || savedTheme === 'light') {
-  document.body.classList.add(savedTheme);
-}
+// Aplica tema guardado se maneja en ThemeProvider
 
 // Montaje de la aplicación en el root con un único App
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <WalletProvider>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </WalletProvider>
     </QueryClientProvider>
   </StrictMode>
