@@ -30,6 +30,8 @@ import SmartOrders from './pages/SmartOrders';
 import CopyTrading from './pages/CopyTrading';
 import Sniping from './pages/Sniping';
 import History from './pages/History';
+import Card from './pages/Card';
+import Savings from './pages/Savings';
 import NotFound from './pages/NotFound';
 import BottomNav from './components/BottomNav';
 
@@ -72,6 +74,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/wallet" element={<Wallet />} />
             <Route path="/swap" element={<Swap />} />
+            <Route path="/card" element={<Card />} />
+            <Route path="/savings" element={<Savings />} />
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/education" element={<Education />} />
             <Route path="/faq" element={<FAQ />} />
