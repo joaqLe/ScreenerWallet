@@ -1,130 +1,273 @@
+import styled from 'styled-components'
 import { useState } from 'react'
-import {
-  BellIcon,
-  EyeIcon,
-  PlusIcon,
-  ArrowDownTrayIcon,
-  ArrowUpTrayIcon,
-  ArrowsRightLeftIcon,
-  ChevronUpIcon,
-  ArrowsRightLeftIcon as SwapIcon,
-} from '@heroicons/react/24/outline'
+
+const Wrapper = styled.div`
+  background: #f7f7f9;
+  min-height: 100vh;
+  padding: 16px;
+`
+
+const Card = styled.div`
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+`
+
+const UserHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const AvatarRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+`
+
+const Name = styled.span`
+  font-size: 16px;
+  font-weight: 600;
+  color: #333333;
+`
+
+const Notification = styled.button`
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+`
+
+const Dot = styled.span`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #ff3b30;
+  border-radius: 4px;
+`
+
+const BalanceTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #888888;
+`
+
+const BalanceAmount = styled.div`
+  font-size: 32px;
+  font-weight: 700;
+  color: #222222;
+  margin-top: 4px;
+`
+
+const Actions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+`
+
+const Action = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+`
+
+const ActionBtn = styled.button<{color: string}>`
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  color: ${p => p.color};
+  font-size: 20px;
+  cursor: pointer;
+`
+
+const ActionLabel = styled.span`
+  font-size: 10px;
+  color: #333333;
+`
+
+const Tabs = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+`
+
+const Tab = styled.button<{active:boolean}>`
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: ${p=>p.active ? '#7e3ff2' : '#aaaaaa'};
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  cursor: pointer;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: #7e3ff2;
+    display: ${p=>p.active ? 'block' : 'none'};
+  }
+`
+
+const AssetCard = styled.div`
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+`
+
+const AssetInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+
+const AssetLogo = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+`
+
+const AssetText = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const AssetSymbol = styled.span`
+  font-size: 16px;
+  font-weight: 700;
+`
+
+const AssetAmount = styled.span`
+  font-size: 12px;
+  color: #666666;
+`
+
+const AssetChange = styled.span<{positive:boolean}>`
+  font-size: 14px;
+  color: ${p=>p.positive ? '#4caf50' : '#f44336'};
+`
+
+const TxSection = styled.div`
+  margin-top: 24px;
+`
+
+const TxItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+`
 
 export default function Dashboard() {
   const [tab, setTab] = useState('Crypto')
 
   return (
-    // Main container with gray background
-    <div className="bg-gray-100 min-h-screen p-4">
-      {/* Center card */}
-      <div className="bg-white rounded-2xl shadow-md max-w-sm mx-auto p-4">
-        {/* Header with avatar, name and notification bell */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <img
-              className="w-10 h-10 rounded-full"
-              src="https://via.placeholder.com/40"
-              alt="avatar"
-            />
-            <span className="ml-2 text-gray-800 font-semibold text-lg">
-              Mitchell Santos
-            </span>
-          </div>
-          <button className="relative bg-white shadow p-2 rounded-xl">
-            <BellIcon className="w-5 h-5 text-gray-600" />
-            <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full" />
-          </button>
-        </div>
-
-        {/* Total balance */}
-        <div className="mt-4">
-          <div className="flex items-center gap-1 text-sm text-gray-500">
+    <Wrapper>
+      <Card>
+        <UserHeader>
+          <AvatarRow>
+            <Avatar src="https://via.placeholder.com/40" />
+            <Name>Mitchell Santos</Name>
+          </AvatarRow>
+          <Notification>
+            🔔
+            <Dot />
+          </Notification>
+        </UserHeader>
+        <div style={{marginTop:'16px'}}>
+          <BalanceTitle>
+            <span>👁‍🗨</span>
             <span>Total balance</span>
-            <EyeIcon className="w-4 h-4" />
-          </div>
-          <div className="text-4xl font-bold text-gray-900 mt-1">$72 829,62</div>
+          </BalanceTitle>
+          <BalanceAmount>$72 829,62</BalanceAmount>
         </div>
-
-        {/* Quick actions */}
-        <div className="grid grid-cols-4 gap-3 mt-4">
-          <div className="flex flex-col items-center">
-            <button className="flex items-center justify-center bg-white shadow rounded-xl w-12 h-12">
-              <PlusIcon className="w-6 h-6 text-gray-700" />
-            </button>
-            <span className="text-xs text-gray-600 mt-1">Add saving</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <button className="flex items-center justify-center bg-white shadow rounded-xl w-12 h-12">
-              <ArrowDownTrayIcon className="w-6 h-6 text-gray-700" />
-            </button>
-            <span className="text-xs text-gray-600 mt-1">Withdraw</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <button className="flex items-center justify-center bg-white shadow rounded-xl w-12 h-12">
-              <ArrowUpTrayIcon className="w-6 h-6 text-gray-700" />
-            </button>
-            <span className="text-xs text-gray-600 mt-1">Top up</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <button className="flex items-center justify-center bg-white shadow rounded-xl w-12 h-12">
-              <ArrowsRightLeftIcon className="w-6 h-6 text-gray-700" />
-            </button>
-            <span className="text-xs text-gray-600 mt-1">Exchange</span>
-          </div>
-        </div>
-
-        {/* Tabs */}
-        <nav className="flex mt-4 space-x-4 overflow-x-auto">
-          {['Crypto', 'Fiat', 'Card', 'Savings', '📊'].map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`uppercase text-xs pb-1 ${
-                tab === t ? 'text-purple-600 border-b-2 border-purple-600' : 'text-gray-400'
-              }`}
-            >
-              {t}
-            </button>
+        <Actions>
+          <Action>
+            <ActionBtn color="#2e7d32">＋</ActionBtn>
+            <ActionLabel>Add saving</ActionLabel>
+          </Action>
+          <Action>
+            <ActionBtn color="#f57c00">↓</ActionBtn>
+            <ActionLabel>Withdraw</ActionLabel>
+          </Action>
+          <Action>
+            <ActionBtn color="#1976d2">↑</ActionBtn>
+            <ActionLabel>Top up</ActionLabel>
+          </Action>
+          <Action>
+            <ActionBtn color="#7e3ff2">⇄</ActionBtn>
+            <ActionLabel>Exchange</ActionLabel>
+          </Action>
+        </Actions>
+        <Tabs>
+          {['Crypto','Fiat','Card','Savings','📊'].map(t => (
+            <Tab key={t} active={t===tab} onClick={()=>setTab(t)}>{t}</Tab>
           ))}
-        </nav>
-
-        {/* Asset cards */}
-        <ul className="space-y-3 mt-4">
-          <li className="flex items-center justify-between bg-white rounded-2xl p-3 shadow">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">₿</div>
-              <span className="font-semibold">BTC</span>
-            </div>
-            <span className="text-sm text-gray-500">1,1272 · $67 203,95</span>
-            <span className="text-green-500 flex items-center text-sm">
-              <ChevronUpIcon className="w-4 h-4" />2,15%
-            </span>
-          </li>
-          <li className="flex items-center justify-between bg-white rounded-2xl p-3 shadow">
-            <div className="flex items-center">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">Ξ</div>
-              <span className="font-semibold">ETH</span>
-            </div>
-            <span className="text-sm text-gray-500">0,6948 · $1 801,73</span>
-            <span className="text-green-500 flex items-center text-sm">
-              <ChevronUpIcon className="w-4 h-4" />1,12%
-            </span>
-          </li>
-        </ul>
-
-        {/* Recent transactions */}
-        <h4 className="text-sm font-semibold text-gray-800 mt-6">Recent transactions</h4>
-        <div className="flex items-center justify-between bg-white rounded-2xl p-3 shadow mt-2">
-          <div>
-            <div className="flex items-center">
-              <SwapIcon className="w-5 h-5 text-gray-600 mr-1" />
-              <span>USDT to BTC</span>
-            </div>
-            <div className="text-xs text-gray-400">2023-07-25</div>
-          </div>
-          <span className="text-green-500 text-sm">+0,0116 BTC</span>
-        </div>
-      </div>
-    </div>
+        </Tabs>
+        <AssetCard>
+          <AssetInfo>
+            <AssetLogo>₿</AssetLogo>
+            <AssetText>
+              <AssetSymbol>BTC</AssetSymbol>
+              <AssetAmount>1,1272 · $67 203,95</AssetAmount>
+            </AssetText>
+          </AssetInfo>
+          <AssetChange positive>2,15%</AssetChange>
+        </AssetCard>
+        <AssetCard>
+          <AssetInfo>
+            <AssetLogo>Ξ</AssetLogo>
+            <AssetText>
+              <AssetSymbol>ETH</AssetSymbol>
+              <AssetAmount>0,6948 · $1 801,73</AssetAmount>
+            </AssetText>
+          </AssetInfo>
+          <AssetChange positive>1,12%</AssetChange>
+        </AssetCard>
+        <TxSection>
+          <h4 style={{margin:0,color:'#333333'}}>Recent transactions</h4>
+          <TxItem>
+            <span>🔄 USDT to BTC</span>
+            <span style={{fontSize:'12px',color:'#888'}}>2023-07-25</span>
+            <span style={{color:'#4caf50',fontSize:'12px'}}>+0,0116 BTC</span>
+          </TxItem>
+        </TxSection>
+      </Card>
+    </Wrapper>
   )
 }
+
