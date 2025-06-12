@@ -1,169 +1,54 @@
 import { useState, useEffect } from 'react'
 
 export default function Swap() {
-  const [fromToken, setFromToken] = useState('SOL')
-  const [toToken, setToToken] = useState('USDC')
-  const [fromAmount, setFromAmount] = useState('')
-  const [toAmount, setToAmount] = useState('')
-  const [usdValue, setUsdValue] = useState('')
-  const [route] = useState<'Orca' | 'Raydium'>('Orca')
-  const [balance, setBalance] = useState<number | null>(null)
-  const [slippage] = useState(0.5)
-  const [fee] = useState(0.000005)
-  const [confirm, setConfirm] = useState(false)
-  const [swapped, setSwapped] = useState(false)
-  const [txId, setTxId] = useState('')
+  const [fromAmount, setFromAmount] = useState('0.6948')
+  const [toAmount, setToAmount] = useState('1801.73')
 
   useEffect(() => {
-    const key = localStorage.getItem('wallet')
-    if (key && fromToken === 'SOL') {
-      import('@solana/web3.js')
-        .then(({ Connection, PublicKey }) => {
-          const rpcUrl = import.meta.env.VITE_RPC_URL
-          const connection = new Connection(rpcUrl)
-          connection.getBalance(new PublicKey(key)).then((lamports: number) => {
-            setBalance(lamports / 1e9)
-          })
-        })
-        .catch(() => setBalance(null))
-    } else {
-      setBalance(null)
-    }
-  }, [fromToken])
-
-  useEffect(() => {
-    if (fromAmount) {
-      const token = fromToken === 'SOL' ? 'solana' : fromToken.toLowerCase()
-      fetch(`${import.meta.env.VITE_API_URL}/api/prices?token=${token}`)
-        .then((res) => res.json())
-        .then((json) => {
-          const price = json.pairs ? parseFloat(json.pairs[0].priceUsd) : 0
-          setUsdValue((parseFloat(fromAmount) * price).toFixed(2))
-          setToAmount(fromAmount)
-        })
-        .catch(() => {
-          setUsdValue('0')
-          setToAmount(fromAmount)
-        })
-    } else {
-      setUsdValue('')
-      setToAmount('')
-    }
-  }, [fromAmount, fromToken])
-
-  const handleConfirm = () => {
-    setConfirm(false)
-    setSwapped(true)
-    setTxId(Math.random().toString(36).substring(2, 10).toUpperCase())
-  }
-
-  if (swapped) {
-    return (
-      <div style={{ textAlign: 'center', padding: '2rem' }}>
-        <div style={{ fontSize: '4rem', color: 'green' }}>✔️</div>
-        <p>Swap completado</p>
-        <p>
-          {fromAmount} {fromToken} → {toAmount} {toToken}
-        </p>
-        <p>Fee: {fee} SOL</p>
-        <p>TX ID: {txId}</p>
-      </div>
-    )
-  }
+    setToAmount(fromAmount)
+  }, [fromAmount])
 
   return (
-    <div style={{ paddingBottom: '80px' }}>
-      <h2>Swap</h2>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          Token origen:
-          <select
-            value={fromToken}
-            onChange={(e) => setFromToken(e.target.value)}
-          >
-            <option value="SOL">SOL</option>
-            <option value="USDC">USDC</option>
-          </select>
-          {balance !== null && <span> Balance: {balance}</span>}
-        </label>
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          Cantidad:
-          <input
-            value={fromAmount}
-            onChange={(e) => setFromAmount(e.target.value)}
-            placeholder="0.0"
-          />
-        </label>
-        {usdValue && <div>≈ ${usdValue} USD</div>}
-      </div>
-      <div style={{ marginBottom: '1rem' }}>
-        <label>
-          Token destino:
-          <select value={toToken} onChange={(e) => setToToken(e.target.value)}>
-            <option value="USDC">USDC</option>
-            <option value="SOL">SOL</option>
-          </select>
-        </label>
-        {toAmount && (
-          <div>
-            Recibirás: {toAmount} {toToken}
-          </div>
-        )}
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        {route === 'Orca' ? (
-          <img
-            src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/orcaEKTdK7LKz57vaAYr9QeNsVEPfiu6QeMU1kektZE/logo.png"
-            alt="Orca"
-            width={32}
-            height={32}
-          />
-        ) : (
-          <img
-            src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R/logo.png"
-            alt="Raydium"
-            width={32}
-            height={32}
-          />
-        )}
-        <span>Ruta: {route}</span>
-        <span>Slippage: {slippage}%</span>
-        <span>Fee: {fee} SOL</span>
-      </div>
-      {confirm ? (
-        <div style={{ marginTop: '1rem' }}>
-          <p>
-            Swappear {fromAmount} {fromToken} por {toAmount} {toToken}
-          </p>
-          <button
-            onClick={handleConfirm}
-            style={{
-              fontSize: '1.2rem',
-              padding: '0.75rem 1.5rem',
-              backgroundColor: '#0078d4',
-              color: 'white',
-            }}
-          >
-            Confirmar Swap
-          </button>
-          <button onClick={() => setConfirm(false)}>Cancelar</button>
+    <div style={{background:'#f7f7f9',minHeight:'100vh',padding:'16px'}}>
+      <div style={{background:'#fff',borderRadius:'24px',boxShadow:'0 4px 12px rgba(0,0,0,0.05)',padding:'16px'}}>
+        <div style={{display:'flex',alignItems:'center',marginBottom:'16px'}}>
+          <button onClick={() => history.back()} style={{background:'none',border:'none',fontSize:'24px'}}>&lt;</button>
+          <h3 style={{flex:1,textAlign:'center',margin:0,fontSize:'18px'}}>Exchange</h3>
         </div>
-      ) : (
-        <button
-          onClick={() => setConfirm(true)}
-          style={{
-            marginTop: '1rem',
-            fontSize: '1.2rem',
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#0078d4',
-            color: 'white',
-          }}
-        >
-          Confirmar Swap
-        </button>
-      )}
+        <div style={{background:'#fff',borderRadius:'16px',boxShadow:'0 2px 4px rgba(0,0,0,0.05)',padding:'12px',marginBottom:'12px'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+              <div style={{width:'32px',height:'32px',borderRadius:'16px',background:'#f0f0f0',display:'flex',alignItems:'center',justifyContent:'center'}}>Ξ</div>
+              <span style={{fontSize:'16px',fontWeight:600}}>ETH ▼</span>
+            </div>
+            <span style={{color:'#555'}}>Send</span>
+          </div>
+          <div style={{display:'flex',marginTop:'8px',alignItems:'flex-end'}}>
+            <input value={fromAmount} onChange={e=>setFromAmount(e.target.value)} style={{flex:1,border:'none',fontSize:'28px',outline:'none'}} />
+            <button style={{border:'none',borderRadius:'12px',background:'#e5f8eb',color:'#2e7d32',padding:'2px 8px',fontSize:'12px',marginLeft:'8px'}}>Max</button>
+          </div>
+          <div style={{fontSize:'12px',color:'#888'}}>Balance: 0.6948 ETH</div>
+        </div>
+        <div style={{textAlign:'center',fontSize:'12px',color:'#888',margin:'8px 0'}}>1 l</div>
+        <div style={{background:'#fff',borderRadius:'16px',boxShadow:'0 2px 4px rgba(0,0,0,0.05)',padding:'12px',marginBottom:'12px'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
+              <div style={{width:'32px',height:'32px',borderRadius:'16px',background:'#f0f0f0',display:'flex',alignItems:'center',justifyContent:'center'}}>$</div>
+              <span style={{fontSize:'16px',fontWeight:600}}>USD ▼</span>
+            </div>
+            <span style={{color:'#555'}}>Receive</span>
+          </div>
+          <div style={{display:'flex',marginTop:'8px',alignItems:'flex-end'}}>
+            <input value={toAmount} onChange={e=>setToAmount(e.target.value)} style={{flex:1,border:'none',fontSize:'28px',outline:'none'}} />
+          </div>
+          <div style={{fontSize:'12px',color:'#888'}}>Balance: 100,95 USD</div>
+        </div>
+        <button style={{width:'100%',border:'none',borderRadius:'32px',padding:'12px 0',fontSize:'16px',fontWeight:600,color:'#fff',background:'linear-gradient(90deg,#7e3ff2,#4d51ff)',margin:'24px 0',boxShadow:'0 6px 12px rgba(0,0,0,0.1)'}}>Swap</button>
+        <div style={{fontSize:'12px',color:'#666'}}>Rate: 1 ETH = 2593,00 USD</div>
+        <div style={{fontSize:'12px',color:'#666'}}>Estimated fee: 4,28 USD</div>
+        <div style={{fontSize:'12px',fontWeight:600}}>You will receive: 1 797,45 USD</div>
+      </div>
     </div>
   )
 }
+
