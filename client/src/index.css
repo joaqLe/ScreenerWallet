@@ -112,3 +112,5 @@ button:focus-visible {
 .status-failed {
   color: #f44336;
 }
+.shadow-t{box-shadow:0 -2px 6px rgba(0,0,0,0.05);}
+
