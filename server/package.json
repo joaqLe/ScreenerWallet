@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "start": "node index.js",
-    "build": "echo \"building server\""
+    "build": "echo \"building server\"",
+    "dev": "node index.js"
   },
   "keywords": [],
   "author": "",

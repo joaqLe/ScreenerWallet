@@ -2,14 +2,6 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
-interface SnipingRule {
-  id: number;
-  liquidity: number;
-  volume: number;
-  investment: number;
-  active: boolean;
-}
 import { useSniping } from '../hooks/useSniping';
 
 interface Snipe {
@@ -19,84 +11,42 @@ interface Snipe {
   timestamp: number;
 }
 
+const schema = yup
+  .object({
+    liquidity: yup.number().typeError('Requerido').min(0).required('Requerido'),
+    volume: yup.number().typeError('Requerido').min(0).required('Requerido'),
+    investment: yup.number().typeError('Requerido').min(0).required('Requerido'),
+    active: yup.boolean().required(),
+  })
+  .required();
+
+type FormValues = yup.InferType<typeof schema>;
+
 export default function Sniping() {
-  const schema = yup
-    .object({
-      liquidity: yup
-        .number()
-        .typeError('Requerido')
-        .min(0, 'Debe ser mayor o igual a 0')
-        .required('Requerido'),
-      volume: yup
-        .number()
-        .typeError('Requerido')
-        .min(0, 'Debe ser mayor o igual a 0')
-        .required('Requerido'),
-      investment: yup
-        .number()
-        .typeError('Requerido')
-        .min(0, 'Debe ser mayor o igual a 0')
-        .required('Requerido'),
-      active: yup.boolean().required(),
-    })
-    .required();
+  const { rules, createRule, deleteRule } = useSniping();
+  const [snipes, setSnipes] = useState<Snipe[]>([]);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<{
-    liquidity: number;
-    volume: number;
-    investment: number;
-    active: boolean;
-  }>({
+  } = useForm<FormValues>({
     resolver: yupResolver(schema),
     defaultValues: { active: true },
   });
 
-  const { rules, createRule, deleteRule } = useSniping();
-  const [snipes, setSnipes] = useState<Snipe[]>([]);
-
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/sniping/snipes`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setSnipes)
       .catch(console.error);
   }, []);
 
-  const onSubmit = (data: {
-    liquidity: number;
-    volume: number;
-    investment: number;
-    active: boolean;
-  }) => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/sniping/rules`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((rule) => {
-        setRules([...rules, rule]);
-        reset({ liquidity: undefined, volume: undefined, investment: undefined, active: true });
-      })
-      .catch(console.error);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const body = {
-      liquidity: Number(liquidity),
-      volume: Number(volume),
-      investment: Number(investment),
-      active,
-    };
-    createRule(body).then(() => {
-      setLiquidity('');
-      setVolume('');
-      setInvestment('');
-      setActive(true);
-    });
+  const onSubmit = (data: FormValues) => {
+    createRule(data).then(() =>
+      reset({ liquidity: undefined, volume: undefined, investment: undefined, active: true })
+    );
   };
 
   return (
@@ -132,14 +82,11 @@ export default function Sniping() {
 
       <h3>Reglas</h3>
       <ul>
-        {rules.map(rule => (
+        {rules.map((rule) => (
           <li key={rule.id}>
-            Liquidez: {rule.liquidity} | Volumen: {rule.volume} | Inversión:{' '}
-            {rule.investment} | {rule.active ? 'Activa' : 'Inactiva'}
-            <button
-              onClick={() => deleteRule(rule.id)}
-              style={{ marginLeft: '0.5rem' }}
-            >
+            Liquidez: {rule.liquidity} | Volumen: {rule.volume} | Inversión: {rule.investment} |{' '}
+            {rule.active ? 'Activa' : 'Inactiva'}
+            <button onClick={() => deleteRule(rule.id)} style={{ marginLeft: '0.5rem' }}>
               Eliminar
             </button>
           </li>
@@ -148,7 +95,7 @@ export default function Sniping() {
 
       <h3>Últimos snipes</h3>
       <ul>
-        {snipes.map(snipe => (
+        {snipes.map((snipe) => (
           <li key={snipe.id}>
             {new Date(snipe.timestamp).toLocaleString()} - {snipe.token} - {snipe.amount}
           </li>
