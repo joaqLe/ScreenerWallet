@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NewAlertModal from 'components/NewAlertModal';
+import NewAlertModal from '../components/NewAlertModal';
 import { useAlerts } from '../hooks/useAlerts';
 
 export default function Alerts() {
@@ -25,7 +25,7 @@ export default function Alerts() {
       )}
       <h3>Alertas activas</h3>
       <ul>
-        {alerts.data?.map((a) => (
+        {(alerts.data as any[] | undefined)?.map((a) => (
           <li key={a.id}>
             {a.token} {a.type} {a.condition.operator} {a.condition.value} -{' '}
             {a.active ? 'Activo' : 'Inactivo'}
