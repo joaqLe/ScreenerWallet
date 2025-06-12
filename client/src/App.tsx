@@ -2,46 +2,39 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import Layout from 'components/Layout';
-import Dashboard from 'pages/Dashboard';
-import Swap from 'pages/Swap';
-import Wallet from 'pages/Wallet';
-import Alerts from 'pages/Alerts';
-import Education from 'pages/Education';
-import FAQ from 'pages/FAQ';
-import Login from 'pages/Login';
-import Register from 'pages/Register';
-import Onboarding from 'pages/Onboarding';
-import WalletSetup from 'pages/WalletSetup';
-import SeedPhrase from 'pages/SeedPhrase';
-import ConfirmSeed from 'pages/ConfirmSeed';
-import Send from 'pages/Send';
-import Receive from 'pages/Receive';
-import Settings from 'pages/Settings';
-import Premium from 'pages/Premium';
-import Leaderboard from 'pages/Leaderboard';
-import Events from 'pages/Events';
-import Community from 'pages/Community';
-import TokenDetail from 'pages/TokenDetail';
-import Profile from 'pages/Profile';
-import Whales from 'pages/Whales';
-import Security from 'pages/Security';
-import SmartOrders from 'pages/SmartOrders';
-import CopyTrading from 'pages/CopyTrading';
-import Sniping from 'pages/Sniping';
-import History from 'pages/History';
-import NotFound from 'pages/NotFound';
-import BottomNav from 'components/BottomNav';
-
-import './App.css';
+import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import Swap from './pages/Swap';
+import Wallet from './pages/Wallet';
+import Alerts from './pages/Alerts';
+import Education from './pages/Education';
+import FAQ from './pages/FAQ';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Onboarding from './pages/Onboarding';
+import WalletSetup from './pages/WalletSetup';
+import SeedPhrase from './pages/SeedPhrase';
+import ConfirmSeed from './pages/ConfirmSeed';
+import Send from './pages/Send';
+import Receive from './pages/Receive';
+import Settings from './pages/Settings';
+import Premium from './pages/Premium';
+import Leaderboard from './pages/Leaderboard';
+import Events from './pages/Events';
+import Community from './pages/Community';
+import TokenDetail from './pages/TokenDetail';
+import Profile from './pages/Profile';
+import Whales from './pages/Whales';
+import Security from './pages/Security';
+import SmartOrders from './pages/SmartOrders';
+import CopyTrading from './pages/CopyTrading';
+import Sniping from './pages/Sniping';
+import History from './pages/History';
+import NotFound from './pages/NotFound';
+import BottomNav from './components/BottomNav';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000,
-      cacheTime: 5 * 60 * 1000,
-    },
-  },
+  defaultOptions: { queries: { staleTime: 60 * 1000 } },
 });
 
 function App() {
@@ -52,19 +45,17 @@ function App() {
     if (Notification.permission !== 'granted') {
       Notification.requestPermission();
     }
-    const ws = new WebSocket(
-      import.meta.env.VITE_WS_URL || 'ws://localhost:3001'
-    );
+    const ws = new WebSocket(import.meta.env.VITE_WS_URL || 'ws://localhost:3001');
     ws.addEventListener('message', (event) => {
       try {
         const data = JSON.parse(event.data);
         if (data.type === 'alert') {
-          navigator.serviceWorker.ready.then((reg) => {
+          navigator.serviceWorker.ready.then(reg =>
             reg.active?.postMessage({
               title: 'Nueva alerta',
               options: { body: `${data.alert.token} ${data.alert.type}` },
-            });
-          });
+            })
+          );
         }
       } catch (err) {
         console.error(err);

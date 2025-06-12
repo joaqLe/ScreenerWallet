@@ -1,46 +1,46 @@
-export interface Trader {
-  alias: string;
-  address: string;
+// src/services/copy.ts
+
+/**
+ * Representa un trader seguido y su rendimiento
+ */
+export interface FollowedTrader {
+  /**
+   * Identificador único del trader en el sistema
+   */
+  id: string;
+  /**
+   * Dirección de wallet asociada al trader
+   */
+  walletAddress: string;
+  /**
+   * Rendimiento porcentual reciente del trader
+   */
+  performance: number;
 }
 
-export interface FollowedTrader extends Trader {
-  copyPercent: number;
-  active: boolean;
+/**
+ * Obtiene la lista de traders que un usuario sigue
+ */
+export async function getFollowedTraders(): Promise<FollowedTrader[]> {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/copy/followed`);
+  if (!response.ok) throw new Error('Error cargando traders seguidos');
+  return response.json();
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-export async function fetchFollowers(): Promise<FollowedTrader[]> {
-  const res = await fetch(`${API_URL}/api/copy/followers`);
-  if (!res.ok) {
-    throw new Error('Failed to fetch followers');
+/**
+ * Envía orden de copia de un trader seguido
+ */
+export async function copyTrade(traderId: string, amount: number): Promise<void> {
+  const response = await fetch(
+    `${import.meta.env.VITE_API_URL}/copy/trade`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ traderId, amount }),
+    }
+  );
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Error al copiar trade: ${error}`);
   }
-  const json = await res.json();
-  return json.followers ?? json;
-}
-
-export async function followTrader(trader: Trader): Promise<FollowedTrader[]> {
-  const res = await fetch(`${API_URL}/api/copy/follow`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(trader),
-  });
-  if (!res.ok) {
-    throw new Error('Failed to follow trader');
-  }
-  const json = await res.json();
-  return json.followers ?? json;
-}
-
-export async function unfollowTrader(address: string): Promise<FollowedTrader[]> {
-  const res = await fetch(`${API_URL}/api/copy/unfollow`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ address }),
-  });
-  if (!res.ok) {
-    throw new Error('Failed to unfollow trader');
-  }
-  const json = await res.json();
-  return json.followers ?? json;
 }

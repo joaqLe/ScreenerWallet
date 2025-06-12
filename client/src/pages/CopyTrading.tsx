@@ -1,6 +1,41 @@
-import { useState } from 'react';
-import type { Trader, FollowedTrader } from '../services/copy';
-import useCopyTrading from '../hooks/useCopyTrading';
+// src/pages/CopyTrading.tsx
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+// Define missing types locally
+type Trader = {
+  alias: string;
+  address: string;
+};
+
+type FollowedTrader = {
+  alias: string;
+  address: string;
+  copyPercent: number;
+};
+
+// Mock implementations for fetchFollowers, followTrader, and unfollowTrader
+const fetchFollowers = async (): Promise<FollowedTrader[]> => {
+  // Replace with real API call
+  return [
+    { alias: 'Trader Alpha', address: '0xAlpha', copyPercent: 50 },
+  ];
+};
+
+const followTrader = async (trader: Trader): Promise<FollowedTrader[]> => {
+  // Replace with real API call
+  return [
+    { alias: trader.alias, address: trader.address, copyPercent: 50 },
+  ];
+};
+
+const unfollowTrader = async (address: string): Promise<FollowedTrader[]> => {
+  // Replace with real API call
+  // For the mock, remove the trader with the given address from the mock followers list
+  const currentFollowers: FollowedTrader[] = [
+    { alias: 'Trader Alpha', address: '0xAlpha', copyPercent: 50 },
+  ];
+  return currentFollowers.filter(f => f.address !== address);
+};
 
 const popularTraders: Trader[] = [
   { alias: 'Trader Alpha', address: '0xAlpha' },
@@ -9,98 +44,63 @@ const popularTraders: Trader[] = [
 ];
 
 export default function CopyTrading() {
-  const [search, setSearch] = useState('');
-  const {
-    followers: followed,
-    follow,
-    unfollow,
-    updateFollower,
-  } = useCopyTrading();
+  const queryClient = useQueryClient();
+  const { data: followers = [], isLoading, error } = useQuery<FollowedTrader[]>({
+    queryKey: ['copy', 'followers'],
+    queryFn: fetchFollowers,
+    initialData: [],
+  });
+
+  const followMutation = useMutation<FollowedTrader[], Error, Trader>({
+    mutationFn: followTrader,
+    onSuccess: (newFollowers: FollowedTrader[]) => {
+      queryClient.setQueryData(['copy', 'followers'], newFollowers);
+    },
+  });
+
+  const unfollowMutation = useMutation<FollowedTrader[], Error, string>({
+    mutationFn: unfollowTrader,
+    onSuccess: (newFollowers: FollowedTrader[]) => {
+      queryClient.setQueryData(['copy', 'followers'], newFollowers);
+    },
+  });
 
   const handleFollow = (trader: Trader) => {
-    if (followed.some((t) => t.address === trader.address)) {
-      unfollow(trader.address);
-    } else {
-      follow(trader);
-    }
+    const isFollowed = (followers as FollowedTrader[]).some((f: FollowedTrader) => f.address === trader.address);
+    if (isFollowed) unfollowMutation.mutate(trader.address);
+    else followMutation.mutate(trader);
   };
 
-  const updatePercent = (address: string, percent: number) => {
-    updateFollower(address, (t) => ({ ...t, copyPercent: percent }));
-  };
-
-  const toggleActive = (address: string) => {
-    updateFollower(address, (t) => ({ ...t, active: !t.active }));
-  };
-
-  const filtered = popularTraders.filter(t =>
-    t.alias.toLowerCase().includes(search.toLowerCase()) ||
-    t.address.toLowerCase().includes(search.toLowerCase())
-  );
+  if (isLoading) return <div>Cargando traders...</div>;
+  if (error) return <div>Error al cargar traders.</div>;
 
   return (
-    <div>
+    <div style={{ padding: '1rem' }}>
       <h2>Copy Trading</h2>
-
-      <div style={{ marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Buscar trader por alias o dirección"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
-
-      <h3>Explorador de traders populares</h3>
+      <h3>Explora traders populares</h3>
       <ul>
-        {filtered.map(trader => {
-          const isFollowed = followed.some(t => t.address === trader.address);
-          return (
-            <li key={trader.address} style={{ marginBottom: '0.5rem' }}>
-              <strong>{trader.alias}</strong> ({trader.address})
-              <button
-                style={{ marginLeft: '1rem' }}
-                onClick={() => handleFollow(trader)}
-              >
-                {isFollowed ? 'Dejar seguir' : 'Seguir'}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-
-      <h3>Traders seguidos</h3>
-      {followed.length === 0 && <p>No sigues a ningún trader.</p>}
-      <ul>
-        {followed.map(trader => (
-          <li key={trader.address} style={{ marginBottom: '1rem' }}>
-            <strong>{trader.alias}</strong> ({trader.address})
-            <div>
-              <label>
-                Cantidad a copiar (%):
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={trader.copyPercent}
-                  onChange={e =>
-                    updatePercent(trader.address, Number(e.target.value))
-                  }
-                  style={{ marginLeft: '0.5rem', width: '60px' }}
-                />
-              </label>
-              <label style={{ marginLeft: '1rem' }}>
-                <input
-                  type="checkbox"
-                  checked={trader.active}
-                  onChange={() => toggleActive(trader.address)}
-                />{' '}
-                Activar copia
-              </label>
-            </div>
+        {popularTraders.map((trader: Trader) => (
+          <li key={trader.address} style={{ margin: '0.5rem 0' }}>
+            <strong>{trader.alias}</strong> ({trader.address}){' '}
+            <button onClick={() => handleFollow(trader)}>
+              {(followers as FollowedTrader[]).some((f: FollowedTrader) => f.address === trader.address) ? 'Dejar de seguir' : 'Seguir'}
+            </button>
           </li>
         ))}
       </ul>
+
+      <h3>Traders seguidos</h3>
+      {(followers as FollowedTrader[]).length === 0 ? (
+        <p>No sigues a ningún trader.</p>
+      ) : (
+        <ul>
+          {(followers as FollowedTrader[]).map((f: FollowedTrader) => (
+            <li key={f.address} style={{ margin: '0.5rem 0' }}>
+              <strong>{f.alias}</strong> ({f.address}) - Copia al {f.copyPercent}%
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
