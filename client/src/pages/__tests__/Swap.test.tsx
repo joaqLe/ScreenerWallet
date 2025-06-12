@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Swap from '../Swap';
 
-test('renders Confirmar Swap button', () => {
+test('renders Swap button', () => {
   render(<Swap />);
-  expect(screen.getByText('Confirmar Swap')).toBeTruthy();
+  expect(screen.getByText('Swap')).toBeTruthy();
 });
