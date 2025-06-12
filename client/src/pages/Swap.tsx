@@ -1,54 +1,86 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import {
+  ArrowLeftIcon,
+  ChevronDownIcon,
+  ArrowsRightLeftIcon,
+} from '@heroicons/react/24/outline'
 
 export default function Swap() {
   const [fromAmount, setFromAmount] = useState('0.6948')
-  const [toAmount, setToAmount] = useState('1801.73')
-
-  useEffect(() => {
-    setToAmount(fromAmount)
-  }, [fromAmount])
+  const [toAmount] = useState('1801.73')
 
   return (
-    <div style={{background:'#f7f7f9',minHeight:'100vh',padding:'16px'}}>
-      <div style={{background:'#fff',borderRadius:'24px',boxShadow:'0 4px 12px rgba(0,0,0,0.05)',padding:'16px'}}>
-        <div style={{display:'flex',alignItems:'center',marginBottom:'16px'}}>
-          <button onClick={() => history.back()} style={{background:'none',border:'none',fontSize:'24px'}}>&lt;</button>
-          <h3 style={{flex:1,textAlign:'center',margin:0,fontSize:'18px'}}>Exchange</h3>
+    // Main container
+    <div className="bg-gray-100 min-h-screen p-4">
+      <div className="bg-white rounded-2xl shadow-md max-w-sm mx-auto p-4">
+        {/* Header */}
+        <div className="flex items-center mb-4">
+          <button onClick={() => history.back()} className="text-gray-700">
+            <ArrowLeftIcon className="w-5 h-5" />
+          </button>
+          <h3 className="flex-1 text-center text-lg font-semibold">Exchange</h3>
         </div>
-        <div style={{background:'#fff',borderRadius:'16px',boxShadow:'0 2px 4px rgba(0,0,0,0.05)',padding:'12px',marginBottom:'12px'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-              <div style={{width:'32px',height:'32px',borderRadius:'16px',background:'#f0f0f0',display:'flex',alignItems:'center',justifyContent:'center'}}>Ξ</div>
-              <span style={{fontSize:'16px',fontWeight:600}}>ETH ▼</span>
+
+        {/* From selector */}
+        <div className="bg-white rounded-2xl p-4 shadow flex flex-col">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">Ξ</div>
+              <span className="font-semibold">ETH</span>
+              <ChevronDownIcon className="w-4 h-4" />
             </div>
-            <span style={{color:'#555'}}>Send</span>
+            <span className="text-gray-700">Send</span>
           </div>
-          <div style={{display:'flex',marginTop:'8px',alignItems:'flex-end'}}>
-            <input value={fromAmount} onChange={e=>setFromAmount(e.target.value)} style={{flex:1,border:'none',fontSize:'28px',outline:'none'}} />
-            <button style={{border:'none',borderRadius:'12px',background:'#e5f8eb',color:'#2e7d32',padding:'2px 8px',fontSize:'12px',marginLeft:'8px'}}>Max</button>
+          <div className="flex items-end mt-2">
+            <input
+              value={fromAmount}
+              onChange={(e) => setFromAmount(e.target.value)}
+              className="flex-1 text-3xl font-bold outline-none bg-transparent"
+            />
+            <button className="ml-2 bg-green-100 text-green-600 rounded-full px-3 text-sm">
+              Max
+            </button>
           </div>
-          <div style={{fontSize:'12px',color:'#888'}}>Balance: 0.6948 ETH</div>
+          <div className="text-xs text-gray-400 mt-1">Balance: 0.6948 ETH</div>
         </div>
-        <div style={{textAlign:'center',fontSize:'12px',color:'#888',margin:'8px 0'}}>1 l</div>
-        <div style={{background:'#fff',borderRadius:'16px',boxShadow:'0 2px 4px rgba(0,0,0,0.05)',padding:'12px',marginBottom:'12px'}}>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-              <div style={{width:'32px',height:'32px',borderRadius:'16px',background:'#f0f0f0',display:'flex',alignItems:'center',justifyContent:'center'}}>$</div>
-              <span style={{fontSize:'16px',fontWeight:600}}>USD ▼</span>
+
+        {/* Swap arrows */}
+        <div className="flex justify-center my-2">
+          <ArrowsRightLeftIcon className="w-6 h-6 text-gray-500" />
+        </div>
+
+        {/* To selector */}
+        <div className="bg-white rounded-2xl p-4 shadow flex flex-col">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">$</div>
+              <span className="font-semibold">USD</span>
+              <ChevronDownIcon className="w-4 h-4" />
             </div>
-            <span style={{color:'#555'}}>Receive</span>
+            <span className="text-gray-700">Receive</span>
           </div>
-          <div style={{display:'flex',marginTop:'8px',alignItems:'flex-end'}}>
-            <input value={toAmount} onChange={e=>setToAmount(e.target.value)} style={{flex:1,border:'none',fontSize:'28px',outline:'none'}} />
+          <div className="flex items-end mt-2">
+            <input
+              value={toAmount}
+              readOnly
+              className="flex-1 text-3xl font-bold outline-none bg-transparent"
+            />
           </div>
-          <div style={{fontSize:'12px',color:'#888'}}>Balance: 100,95 USD</div>
+          <div className="text-xs text-gray-400 mt-1">Balance: 100,95 USD</div>
         </div>
-        <button style={{width:'100%',border:'none',borderRadius:'32px',padding:'12px 0',fontSize:'16px',fontWeight:600,color:'#fff',background:'linear-gradient(90deg,#7e3ff2,#4d51ff)',margin:'24px 0',boxShadow:'0 6px 12px rgba(0,0,0,0.1)'}}>Swap</button>
-        <div style={{fontSize:'12px',color:'#666'}}>Rate: 1 ETH = 2593,00 USD</div>
-        <div style={{fontSize:'12px',color:'#666'}}>Estimated fee: 4,28 USD</div>
-        <div style={{fontSize:'12px',fontWeight:600}}>You will receive: 1 797,45 USD</div>
+
+        {/* Swap button */}
+        <button className="w-full bg-purple-600 text-white font-semibold py-3 rounded-2xl mt-6 shadow-lg">
+          Swap
+        </button>
+
+        {/* Extra info */}
+        <div className="text-xs text-gray-500 mt-4">
+          <div>Rate: 1 ETH = 2 593,00 USD</div>
+          <div>Estimated fee: 4,28 USD</div>
+          <div className="font-medium text-gray-900">You will receive: 1 797,45 USD</div>
+        </div>
       </div>
     </div>
   )
 }
-
