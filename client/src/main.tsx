@@ -7,7 +7,9 @@ import { WalletProvider } from './context/WalletContext';
 import { ThemeProvider } from './context/ThemeContext';
 
 // Inicializa React Query Client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: 60 * 1000 } },
+});
 
 // Aplica tema guardado se maneja en ThemeProvider
 

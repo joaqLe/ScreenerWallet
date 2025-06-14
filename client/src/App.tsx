@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
@@ -35,10 +34,6 @@ import Savings from './pages/Savings';
 import NotFound from './pages/NotFound';
 import BottomNav from './components/BottomNav';
 
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 60 * 1000 } },
-});
-
 function App() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
@@ -67,8 +62,7 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
+    <Router>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
@@ -105,7 +99,6 @@ function App() {
         </Routes>
         <BottomNav />
       </Router>
-    </QueryClientProvider>
   );
 }
 
