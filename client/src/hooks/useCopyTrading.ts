@@ -4,7 +4,6 @@ import {
   followTrader,
   unfollowTrader,
   FollowedTrader,
-  Trader,
 } from '../services/copy';
 
 export default function useCopyTrading() {
