@@ -36,6 +36,13 @@ export default function useWallet(): WalletState {
 
   useEffect(() => {
     if (publicKey) {
+      if (
+        typeof rpcUrl !== 'string' ||
+        rpcUrl.trim() === '' ||
+        !rpcUrl.startsWith('http')
+      ) {
+        throw new Error('VITE_RPC_URL not configured');
+      }
       const connection = new Connection(rpcUrl);
       connection
         .getBalance(new PublicKey(publicKey))
