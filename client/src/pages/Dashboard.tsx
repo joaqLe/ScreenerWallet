@@ -111,12 +111,12 @@ const Tabs = styled.div`
   margin-bottom: 12px;
 `
 
-const Tab = styled.button<{active:boolean}>`
+const Tab = styled.button<{ $active:boolean }>`
   position: relative;
   background: none;
   border: none;
   font-size: 12px;
-  color: ${p=>p.active ? '#7e3ff2' : '#aaaaaa'};
+  color: ${p=>p.$active ? '#7e3ff2' : '#aaaaaa'};
   text-transform: uppercase;
   padding-bottom: 6px;
   cursor: pointer;
@@ -128,7 +128,7 @@ const Tab = styled.button<{active:boolean}>`
     bottom: 0;
     height: 2px;
     background: #7e3ff2;
-    display: ${p=>p.active ? 'block' : 'none'};
+    display: ${p=>p.$active ? 'block' : 'none'};
   }
 `
 
@@ -175,9 +175,9 @@ const AssetAmount = styled.span`
   color: #666666;
 `
 
-const AssetChange = styled.span<{positive:boolean}>`
+const AssetChange = styled.span<{ $positive:boolean }>`
   font-size: 14px;
-  color: ${p=>p.positive ? '#4caf50' : '#f44336'};
+  color: ${p=>p.$positive ? '#4caf50' : '#f44336'};
 `
 
 const TxSection = styled.div`
@@ -235,7 +235,7 @@ export default function Dashboard() {
         </Actions>
         <Tabs>
           {['Crypto','Fiat','Card','Savings','📊'].map(t => (
-            <Tab key={t} active={t===tab} onClick={()=>setTab(t)}>{t}</Tab>
+            <Tab key={t} $active={t===tab} onClick={()=>setTab(t)}>{t}</Tab>
           ))}
         </Tabs>
         <AssetCard>
@@ -246,7 +246,7 @@ export default function Dashboard() {
               <AssetAmount>1,1272 · $67 203,95</AssetAmount>
             </AssetText>
           </AssetInfo>
-          <AssetChange positive>2,15%</AssetChange>
+          <AssetChange $positive>2,15%</AssetChange>
         </AssetCard>
         <AssetCard>
           <AssetInfo>
@@ -256,7 +256,7 @@ export default function Dashboard() {
               <AssetAmount>0,6948 · $1 801,73</AssetAmount>
             </AssetText>
           </AssetInfo>
-          <AssetChange positive>1,12%</AssetChange>
+          <AssetChange $positive>1,12%</AssetChange>
         </AssetCard>
         <TxSection>
           <h4 style={{margin:0,color:'#333333'}}>Recent transactions</h4>
