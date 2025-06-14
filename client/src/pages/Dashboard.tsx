@@ -200,7 +200,7 @@ export default function Dashboard() {
       <Card>
         <UserHeader>
           <AvatarRow>
-            <Avatar src="https://via.placeholder.com/40" />
+            <Avatar src="https://placehold.co/40" />
             <Name>Mitchell Santos</Name>
           </AvatarRow>
           <Notification>
