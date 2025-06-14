@@ -5,6 +5,7 @@ import './index.css';
 import App from './App.tsx';
 import { WalletProvider } from './context/WalletContext';
 import { ThemeProvider } from './context/ThemeContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Inicializa React Query Client
 const queryClient = new QueryClient();
@@ -14,12 +15,14 @@ const queryClient = new QueryClient();
 // Montaje de la aplicación en el root con un único App
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <WalletProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </WalletProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <WalletProvider>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </WalletProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   </StrictMode>
 );
