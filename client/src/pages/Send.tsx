@@ -13,6 +13,13 @@ export default function Send() {
     const key = localStorage.getItem('wallet')
     if (key) {
       const rpcUrl = import.meta.env.VITE_RPC_URL
+      if (
+        typeof rpcUrl !== 'string' ||
+        rpcUrl.trim() === '' ||
+        !rpcUrl.startsWith('http')
+      ) {
+        throw new Error('VITE_RPC_URL not configured')
+      }
       const connection = new Connection(rpcUrl)
       connection.getBalance(new PublicKey(key)).then((lamports: number) => {
         setBalance(lamports / 1e9)
