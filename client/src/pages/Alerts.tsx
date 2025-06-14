@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NewAlertModal from '../components/NewAlertModal';
-import { useAlerts, Alert } from '../hooks/useAlerts';
+import { useAlerts } from '../hooks/useAlerts';
+import type { Alert } from '../hooks/useAlerts';
 
 export default function Alerts() {
   const { alerts, updateAlert } = useAlerts();
